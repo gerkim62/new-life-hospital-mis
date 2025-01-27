@@ -1,6 +1,9 @@
 {
-  "files": ["index.ts"],
+  "files": ["src/index.ts"],
   "compilerOptions": {
     "outDir": "./dist"
-  }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"],
+  "extends": "@tsconfig/strictest/tsconfig.json"
 }

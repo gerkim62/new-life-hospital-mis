@@ -2,14 +2,10 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { backendValue } from "@app/backend";
-import {A} from "@app/backend/types/a";
-
-const a:A = "A";
-
-console.log(backendValue);
+import { exported } from "@app/backend/src/exported";
 
 function App() {
+  console.log(exported);
   const [count, setCount] = useState(0);
 
   return (
