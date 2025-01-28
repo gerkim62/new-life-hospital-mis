@@ -1,14 +1,13 @@
 import express from "express";
 import path from "path";
 import "dotenv/config";
+import indexRouter from "./routes";
 
 const PORT = process.env["PORT"] || 3000;
 const app = express();
 app.use(express.json());
 
-app.get("/api", (_, res) => {
-  res.send("Hello from the backend!");
-});
+app.use("/api/v1", indexRouter);
 
 const ___baseDir = path.resolve();
 console.log(___baseDir);
