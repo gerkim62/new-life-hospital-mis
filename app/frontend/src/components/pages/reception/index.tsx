@@ -21,7 +21,7 @@ export default function ReceptionPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            <Tabs defaultValue="new">
+            <Tabs defaultValue="existing">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="new">New Patient</TabsTrigger>
                 <TabsTrigger value="existing">Existing Patient</TabsTrigger>

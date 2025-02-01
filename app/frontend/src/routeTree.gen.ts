@@ -14,6 +14,8 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as VisitsVisitIdImport } from './routes/visits/$visitId'
+import { Route as PatientsPatientIdImport } from './routes/patients/$patientId'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthLoginImport } from './routes/auth/login'
 
@@ -32,6 +34,18 @@ const AboutLazyRoute = AboutLazyImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VisitsVisitIdRoute = VisitsVisitIdImport.update({
+  id: '/visits/$visitId',
+  path: '/visits/$visitId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PatientsPatientIdRoute = PatientsPatientIdImport.update({
+  id: '/patients/$patientId',
+  path: '/patients/$patientId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -79,6 +93,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof rootRoute
     }
+    '/patients/$patientId': {
+      id: '/patients/$patientId'
+      path: '/patients/$patientId'
+      fullPath: '/patients/$patientId'
+      preLoaderRoute: typeof PatientsPatientIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/visits/$visitId': {
+      id: '/visits/$visitId'
+      path: '/visits/$visitId'
+      fullPath: '/visits/$visitId'
+      preLoaderRoute: typeof VisitsVisitIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -89,6 +117,8 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutLazyRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/patients/$patientId': typeof PatientsPatientIdRoute
+  '/visits/$visitId': typeof VisitsVisitIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -96,6 +126,8 @@ export interface FileRoutesByTo {
   '/about': typeof AboutLazyRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/patients/$patientId': typeof PatientsPatientIdRoute
+  '/visits/$visitId': typeof VisitsVisitIdRoute
 }
 
 export interface FileRoutesById {
@@ -104,14 +136,35 @@ export interface FileRoutesById {
   '/about': typeof AboutLazyRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/patients/$patientId': typeof PatientsPatientIdRoute
+  '/visits/$visitId': typeof VisitsVisitIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/auth/login' | '/auth/signup'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/auth/login'
+    | '/auth/signup'
+    | '/patients/$patientId'
+    | '/visits/$visitId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/auth/login' | '/auth/signup'
-  id: '__root__' | '/' | '/about' | '/auth/login' | '/auth/signup'
+  to:
+    | '/'
+    | '/about'
+    | '/auth/login'
+    | '/auth/signup'
+    | '/patients/$patientId'
+    | '/visits/$visitId'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/auth/login'
+    | '/auth/signup'
+    | '/patients/$patientId'
+    | '/visits/$visitId'
   fileRoutesById: FileRoutesById
 }
 
@@ -120,6 +173,8 @@ export interface RootRouteChildren {
   AboutLazyRoute: typeof AboutLazyRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  PatientsPatientIdRoute: typeof PatientsPatientIdRoute
+  VisitsVisitIdRoute: typeof VisitsVisitIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -127,6 +182,8 @@ const rootRouteChildren: RootRouteChildren = {
   AboutLazyRoute: AboutLazyRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
+  PatientsPatientIdRoute: PatientsPatientIdRoute,
+  VisitsVisitIdRoute: VisitsVisitIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -142,7 +199,9 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/auth/login",
-        "/auth/signup"
+        "/auth/signup",
+        "/patients/$patientId",
+        "/visits/$visitId"
       ]
     },
     "/": {
@@ -156,6 +215,12 @@ export const routeTree = rootRoute
     },
     "/auth/signup": {
       "filePath": "auth/signup.tsx"
+    },
+    "/patients/$patientId": {
+      "filePath": "patients/$patientId.tsx"
+    },
+    "/visits/$visitId": {
+      "filePath": "visits/$visitId.tsx"
     }
   }
 }

@@ -1,8 +1,11 @@
 import { Router } from "express";
 import dateRouter from "./date";
-import usersRouter from "./users";
+import patientsRouter from "./patients";
+import visitsRouter from "./visits";
 
 const indexRouter = Router();
 indexRouter.use("/date", dateRouter);
-indexRouter.use("/user", usersRouter);
+indexRouter.use("/patients", patientsRouter);
+indexRouter.use("/visits", visitsRouter);
+
 export default indexRouter;

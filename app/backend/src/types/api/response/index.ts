@@ -43,4 +43,4 @@ export type ApiResponse<
   ? PaginatedSuccessResponse<TData, TDataKey> | ErrorResponse<TError>
   : UnpaginatedSuccessResponse<TData, TDataKey> | ErrorResponse<TError>;
 
-export type ValidationErrorApiResponse= ErrorResponse<ZodIssue>;
+export type ValidationErrorApiResponse = ErrorResponse<ZodIssue>;

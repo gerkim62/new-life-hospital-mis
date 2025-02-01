@@ -1,21 +1,31 @@
-import { useEffect, useState } from "react";
+import SymptomsModal from "@/components/modals/symptoms";
+import Loader from "@/components/small/loader";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useCurrentDate from "@/hooks/use-current-date";
+import usePatient from "@/hooks/use-patient";
 import { getAge, getDateOfBirth } from "@/lib/date"; // Assuming getAge handles age calculation.
-import { DateRouteResponse } from "@app/backend/src/routes/date/types";
-import { Button } from "@/components/ui/button";
+import { createPatient } from "@/mutations/patient";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function NewUser() {
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState<string>();
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const currentDate = useCurrentDate();
   const [age, setAge] = useState<number | "">("");
 
-  useEffect(() => {
-    fetchDate();
-  }, []);
+  const [submittedPatientNumber, setSubmittedPatientNumber] = useState<
+    number | null
+  >(null);
+
+  const [modal, setModal] = useState<null | "symptoms">(null);
+
+  const { data: patientData, isLoading } = usePatient(submittedPatientNumber);
 
   useEffect(() => {
     if (dateOfBirth) {
@@ -24,22 +34,57 @@ export default function NewUser() {
     }
   }, [dateOfBirth, currentDate]);
 
-  async function fetchDate() {
-    const res = await fetch("/api/v1/date");
-    const json: DateRouteResponse = await res.json();
-    if (!json.success) {
-      console.log(json.message);
-      return;
-    }
-
-    setCurrentDate(new Date(json.date.current));
-  }
+  const { mutate: mutatePatient, isPending } = useMutation({
+    mutationFn: () => {
+      return createPatient({
+        name,
+        dateOfBirth: new Date(dateOfBirth ?? ""),
+        address,
+        phone: phoneNumber,
+      });
+    },
+    onError: (error) => {
+      console.log(error, "during patient creation");
+      toast.error("Error during patient registration");
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        const pid = data.patient.id;
+        toast.success(`Patient added with ID: ${pid}`);
+        setName("");
+        setAge("");
+        setDateOfBirth("");
+        setAddress("");
+        setPhoneNumber("");
+        setSubmittedPatientNumber(pid);
+        setModal("symptoms");
+      } else {
+        toast.error(data.message);
+      }
+    },
+  });
 
   return (
-    <div className="space-y-4">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        mutatePatient();
+      }}
+      className="space-y-4"
+    >
+      {isPending && <Loader message="Adding patient..." />}
+      {isLoading && <Loader message="Fetching patient details..." />}
+      {patientData?.success && (
+        <SymptomsModal
+          isOpen={modal === "symptoms"}
+          patientId={patientData.patient.id}
+          onClose={() => setModal(null)}
+        />
+      )}
       <div className="space-y-2">
         <Label htmlFor="name">Full Name</Label>
         <Input
+          minLength={3}
           id="name"
           placeholder="Enter full name"
           value={name}
@@ -110,8 +155,8 @@ export default function NewUser() {
         />
       </div>
       <Button type="submit" className="w-full">
-              Proceed
-            </Button>
-    </div>
+        Proceed
+      </Button>
+    </form>
   );
 }
