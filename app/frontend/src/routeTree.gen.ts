@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as VisitsIndexImport } from './routes/visits/index'
 import { Route as VisitsVisitIdImport } from './routes/visits/$visitId'
 import { Route as PatientsPatientIdImport } from './routes/patients/$patientId'
 import { Route as AuthSignupImport } from './routes/auth/signup'
@@ -34,6 +35,12 @@ const AboutLazyRoute = AboutLazyImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VisitsIndexRoute = VisitsIndexImport.update({
+  id: '/visits/',
+  path: '/visits/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -107,6 +114,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VisitsVisitIdImport
       parentRoute: typeof rootRoute
     }
+    '/visits/': {
+      id: '/visits/'
+      path: '/visits'
+      fullPath: '/visits'
+      preLoaderRoute: typeof VisitsIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -119,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
+  '/visits': typeof VisitsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -128,6 +143,7 @@ export interface FileRoutesByTo {
   '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
+  '/visits': typeof VisitsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -138,6 +154,7 @@ export interface FileRoutesById {
   '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
+  '/visits/': typeof VisitsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -149,6 +166,7 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/patients/$patientId'
     | '/visits/$visitId'
+    | '/visits'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -157,6 +175,7 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/patients/$patientId'
     | '/visits/$visitId'
+    | '/visits'
   id:
     | '__root__'
     | '/'
@@ -165,6 +184,7 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/patients/$patientId'
     | '/visits/$visitId'
+    | '/visits/'
   fileRoutesById: FileRoutesById
 }
 
@@ -175,6 +195,7 @@ export interface RootRouteChildren {
   AuthSignupRoute: typeof AuthSignupRoute
   PatientsPatientIdRoute: typeof PatientsPatientIdRoute
   VisitsVisitIdRoute: typeof VisitsVisitIdRoute
+  VisitsIndexRoute: typeof VisitsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -184,6 +205,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthSignupRoute: AuthSignupRoute,
   PatientsPatientIdRoute: PatientsPatientIdRoute,
   VisitsVisitIdRoute: VisitsVisitIdRoute,
+  VisitsIndexRoute: VisitsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -201,7 +223,8 @@ export const routeTree = rootRoute
         "/auth/login",
         "/auth/signup",
         "/patients/$patientId",
-        "/visits/$visitId"
+        "/visits/$visitId",
+        "/visits/"
       ]
     },
     "/": {
@@ -221,6 +244,9 @@ export const routeTree = rootRoute
     },
     "/visits/$visitId": {
       "filePath": "visits/$visitId.tsx"
+    },
+    "/visits/": {
+      "filePath": "visits/index.tsx"
     }
   }
 }

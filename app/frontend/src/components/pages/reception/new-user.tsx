@@ -105,6 +105,7 @@ export default function NewUser() {
             onChange={(e) => {
               if (!e.target.value.length) {
                 setAge("");
+                setDateOfBirth(""); // Clear dateOfBirth if age is cleared
                 return;
               }
               const newAge = Number(e.target.value);
@@ -122,6 +123,7 @@ export default function NewUser() {
         <div className="space-y-2">
           <Label htmlFor="dateOfBirth">Date of Birth</Label>
           <Input
+          max={currentDate.toISOString().split("T")[0]} // Set max date to currentDate
             id="dateOfBirth"
             type="date"
             value={

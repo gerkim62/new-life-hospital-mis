@@ -39,7 +39,7 @@ model PatientVisit {
   // array of the stockItems the patient has been given
   stockItemsMovements StockMovement[]
   // array of the drugs prescribed to the patient 
-  drugsPrescribed     Drug[]
+  drugs               Drug[]
   // array of the expenses incurred during the visit  
   expenses            Expense[]
 }
@@ -52,6 +52,9 @@ model Drug {
 
   patientVisit   PatientVisit @relation(fields: [patientVisitId], references: [id])
   patientVisitId String
+
+  stockMovement   StockMovement? @relation(fields: [stockMovementId], references: [id]) //for drugs that are dispensed from stock
+  stockMovementId String?
 }
 
 model Expense {
@@ -70,20 +73,21 @@ model Lab {
   name        String
   description String
 
+  feesKes Float
   status LabStatus @default(PENDING)
 
-  result LabResult? @relation(fields: [labResultId], references: [id])
-
-  PatientVisit   PatientVisit @relation(fields: [patientVisitId], references: [id])
+  patientVisit   PatientVisit @relation(fields: [patientVisitId], references: [id])
   patientVisitId String
   labResultId    String?
+  labResult      LabResult?
 }
 
 model LabResult {
   id      String @id @default(uuid())
   value   String
   comment String
-  Lab     Lab[]
+  lab     Lab    @relation(fields: [labId], references: [id])
+  labId   String @unique
 }
 
 model StockItem {
@@ -108,6 +112,7 @@ model StockMovement {
   itemId         String
   PatientVisit   PatientVisit? @relation(fields: [patientVisitId], references: [id])
   patientVisitId String?
+  Drug           Drug[]
 }
 
 enum StockMovementType {
