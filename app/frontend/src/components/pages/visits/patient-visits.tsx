@@ -101,7 +101,7 @@ export function PatientsVisitsList() {
             />
             <Button type="submit">Search</Button>
           </form>
-          <div className="mt-4 flex items-center gap-2">
+          <div hidden={!visits.length} className="mt-4 flex items-center gap-2">
             <Checkbox
               id="active-visits"
               checked={showOnlyActiveVisits}
