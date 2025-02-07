@@ -74,7 +74,7 @@ model Lab {
   description String
 
   feesKes Float
-  status LabStatus @default(PENDING)
+  status  LabStatus @default(PENDING)
 
   patientVisit   PatientVisit @relation(fields: [patientVisitId], references: [id])
   patientVisitId String
@@ -101,12 +101,12 @@ model StockItem {
 }
 
 model StockMovement {
-  id          String            @id @default(uuid())
-  quantity    Int
-  createdAt   DateTime
-  description String?
-  type        StockMovementType
-  priceKes    Float
+  id            String            @id @default(uuid())
+  quantity      Int
+  createdAt     DateTime          @default(now())
+  description   String?
+  type          StockMovementType
+  batchPriceKes Float
 
   item           StockItem     @relation(fields: [itemId], references: [id])
   itemId         String

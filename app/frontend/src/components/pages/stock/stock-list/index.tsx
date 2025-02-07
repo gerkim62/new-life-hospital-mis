@@ -12,8 +12,13 @@ import {
 import { getAllStockItems } from "@/queries/stock";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { NewStockModal } from "./new-stock-modal";
+import { MoveStockItemModal } from "./move-stock";
 
 export function StockList() {
+  const [modal, setModal] = useState<null | "new-stock">(null);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const { data, isLoading } = useQuery({
     queryKey: ["stockItems"],
     queryFn: getAllStockItems,
@@ -23,15 +28,29 @@ export function StockList() {
 
   function handleAdjustStock(id: string) {
     console.log(`Open modal to adjust stock for item ${id}`);
+    setSelectedItemId(id);
   }
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
       {isLoading && <Loader message="Loading stock items..." />}
+      {modal === "new-stock" && (
+        <NewStockModal
+          toggle={(isOpen) => setModal(isOpen ? "new-stock" : null)}
+        />
+      )}
+
+      {selectedItemId && (
+        <MoveStockItemModal
+          item={stockItems.find((item) => item.id === selectedItemId)!}
+          toggle={() => setSelectedItemId(null)}
+        />
+      )}
+
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-2xl font-bold">Stock Inventory</CardTitle>
-          <Button>Add Stock Item</Button>
+          <Button onClick={() => setModal("new-stock")}>Add Stock Item</Button>
         </CardHeader>
         <CardContent>
           <Table>
@@ -69,12 +88,7 @@ export function StockList() {
                         +/-
                       </Button>
                       <Button asChild variant="outline">
-                        <Link
-                          to="/stock/$stockId/history"
-                          params={{ stockId: item.id }}
-                        >
-                          View History &rarr;
-                        </Link>
+                        <Link to="/stock">View History &rarr;</Link>
                       </Button>
                     </TableCell>
                   </TableRow>

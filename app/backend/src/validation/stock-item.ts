@@ -1,13 +1,33 @@
+import { StockMovementType } from "@prisma/client";
 import z from "zod";
 
 // name,description,quantity, unit
 const NewStockItemSchema = z.object({
   name: z.string().nonempty(),
-  description: z.string().nonempty(),
+  description: z.string(),
   quantity: z.coerce.number().positive(),
   unit: z.string().nonempty(),
 });
 
-export type NewStockItemOutput = z.output<typeof NewStockItemSchema>;
+const NewStockItemMovementSchema = z.object({
+  type: z.nativeEnum(StockMovementType),
+  quantity: z.coerce.number().gt(0, {
+    message: "Quantity must be greater than 0",
+  }),
+  description: z.string().optional(),
+  batchPriceKes: z.coerce.number().gt(0, {
+    message: "Price must be greater than 0",
+  }),
+});
 
-export { NewStockItemSchema };
+export type NewStockItemOutput = z.output<typeof NewStockItemSchema>;
+export type NewStockItemInput = z.input<typeof NewStockItemSchema>;
+
+export type NewStockItemMovementInput = z.input<
+  typeof NewStockItemMovementSchema
+>;
+export type NewStockItemMovementOutput = z.output<
+  typeof NewStockItemMovementSchema
+>;
+
+export { NewStockItemSchema, NewStockItemMovementSchema };
