@@ -68,8 +68,8 @@ export function NewStockModal({ toggle }: Props) {
 
   return (
     <Dialog defaultOpen onOpenChange={toggle}>
-      {isPending && <Loader message="Please wait..." />}
       <DialogContent>
+        {isPending && <Loader message="Please wait..." />}
         <DialogHeader>
           <DialogTitle>Add New Stock Item</DialogTitle>
         </DialogHeader>

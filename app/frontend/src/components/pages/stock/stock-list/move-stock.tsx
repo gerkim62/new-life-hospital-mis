@@ -1,10 +1,10 @@
 import Loader from "@/components/small/loader";
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -77,10 +77,13 @@ export function MoveStockItemModal({ toggle, item }: Props) {
 
   return (
     <Dialog defaultOpen onOpenChange={toggle}>
-      {isPending && <Loader message={`Saving changes for ${item.name}...`} />}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Move Stock Item - ({item.name})</DialogTitle>
+
+          {isPending && (
+            <Loader message={`Saving changes for ${item.name}...`} />
+          )}
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
