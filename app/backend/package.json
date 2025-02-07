@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
-    "postinstall": "npx prisma generate"
+    "postinstall": "pnpm prisma generate"
   },
   "keywords": [],
   "author": "",
