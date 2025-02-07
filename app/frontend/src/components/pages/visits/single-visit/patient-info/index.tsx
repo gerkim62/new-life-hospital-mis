@@ -2,6 +2,7 @@ import { Clock, ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import MarkAsLeftModal from "./mark-as-left";
+import { Link } from "@tanstack/react-router";
 
 type Props = {
   name: string;
@@ -16,10 +17,6 @@ export default function PatientInfo({
   arrivalTime,
   leaveTime,
 }: Props) {
-  function handleMarkAsLeft() {
-    console.log("Marking patient as left");
-  }
-
   function handleViewAllVisits() {
     console.log("Viewing all visits");
   }
@@ -50,12 +47,15 @@ export default function PatientInfo({
             )}
           </div>
           <Button
+            asChild
             variant="ghost"
             className="w-fit flex items-center gap-2"
             onClick={handleViewAllVisits}
           >
-            <ArrowLeft className="h-4 w-4" />
-            View All Visits
+            <Link to="/visits" className="flex items-center gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              View All Visits
+            </Link>
           </Button>
         </div>
       </CardContent>

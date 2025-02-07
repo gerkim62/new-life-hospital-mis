@@ -1,7 +1,7 @@
 import { Response, Router } from "express";
 import { z } from "zod";
-import { getVisit, updateVisit } from "./controller";
-import { GetVisitResponse, PutVisitResponse } from "./types";
+import { getVisit, markAsLeft, updateVisit } from "./controller";
+import { GetVisitResponse, MarkAsLeftResponse, PutVisitResponse } from "./types";
 import { UpdateVisitSchema } from "../../../validation/visit";
 
 const singleVisitRouter = Router({
@@ -44,4 +44,23 @@ singleVisitRouter.put("/", async (req, res: Response<PutVisitResponse>) => {
     visit,
   });
 });
+
+singleVisitRouter.post(
+  "/mark-as-left",
+  async (req, res: Response<MarkAsLeftResponse>) => {
+    const { visitId } = z
+      .object({
+        visitId: z.string(),
+      })
+      .parse(req.params);
+
+    const visit = await markAsLeft(visitId);
+
+    res.json({
+      message: "Visit marked as left successfully",
+      success: true,
+      visit,
+    });
+  }
+);
 export default singleVisitRouter;

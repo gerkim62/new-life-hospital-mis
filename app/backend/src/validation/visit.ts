@@ -30,6 +30,15 @@ const UpdateVisitSchema = z.object({
   }),
 });
 
+const GetVisitsSchema = z.object({
+  patientId: z.coerce
+    .number({
+      message: "Patient ID must be a number",
+    })
+    .optional(),
+});
+
+export type GetVisitsInput = z.input<typeof GetVisitsSchema>;
 export type UpdateVisitInput = z.input<typeof UpdateVisitSchema>;
 
-export { NewVisitSchema, UpdateVisitSchema };
+export { NewVisitSchema, UpdateVisitSchema, GetVisitsSchema };

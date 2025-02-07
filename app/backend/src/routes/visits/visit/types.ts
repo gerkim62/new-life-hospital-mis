@@ -40,4 +40,8 @@ export type GetVisitResponse = ApiResponse<
   "visit"
 >;
 
+
+export type MarkAsLeftResponse = ApiResponse<PatientVisit, unknown, "visit">;
+
+
 export type PutVisitResponse = ApiResponse<PatientVisit, unknown, "visit">;

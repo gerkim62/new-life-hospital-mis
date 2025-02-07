@@ -1,5 +1,5 @@
 import { UpdateVisitInput } from "../../../validation/visit";
-import prisma from "../../libs/prisma";
+import prisma from "../../../libs/prisma";
 import { ComprehensiveVisit } from "./types";
 
 async function getVisit(id: string): Promise<ComprehensiveVisit | null> {
@@ -72,4 +72,17 @@ async function updateVisit(data: UpdateVisitInput) {
   return visit;
 }
 
-export { getVisit, updateVisit };
+async function markAsLeft(visitId: string) {
+  const visit = await prisma.patientVisit.update({
+    where: {
+      id: visitId,
+    },
+    data: {
+      leaveTime: new Date(),
+    },
+  });
+
+  return visit;
+}
+
+export { getVisit, updateVisit, markAsLeft };

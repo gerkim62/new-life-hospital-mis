@@ -1,33 +1,37 @@
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
 
-import { Home, Package, TestTube, Users } from "lucide-react";
-
-export const navigationItems = [
-  {
-    label: "Home",
-    url: "/",
-    icon: Home,
-  },
-  {
-    label: "Patients",
-    url: "/patients",
-    icon: Users,
-  },
-  {
-    label: "Labs",
-    url: "/labs",
-    icon: TestTube,
-  },
-  {
-    label: "Stock",
-    url: "/stock",
-    icon: Package,
-  },
-];
+import { Package, Stethoscope, TestTube, UserPlus2, Users } from "lucide-react";
 
 const Navbar = () => {
+  const navigationItems = [
+    {
+      label: "Reception",
+      url: "/",
+      icon: UserPlus2,
+    },
+    {
+      label: "Visits",
+      url: "/visits",
+      icon: Stethoscope,
+    },
+    {
+      label: "Patients",
+      url: "/patients",
+      icon: Users,
+    },
+    {
+      label: "Labs",
+      url: "/labs",
+      icon: TestTube,
+    },
+    {
+      label: "Stock",
+      url: "/stock",
+      icon: Package,
+    },
+  ];
   return (
     <nav className="w-full bg-primary">
       <div className="container mx-auto px-4">

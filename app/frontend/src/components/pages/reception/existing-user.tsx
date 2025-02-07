@@ -28,7 +28,13 @@ export default function ExistingUser() {
   }, [data, isLoading]);
 
   return (
-    <div className="space-y-2">
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      setSubmittedPatientNumber(Number(patientNumber));
+      if (data?.success) {
+        setModal("symptoms");
+      }
+    }} className="space-y-2">
       {isLoading && <Loader message="Fetching patient details..." />}
       {data?.success && (
         <SymptomsModal
@@ -47,17 +53,12 @@ export default function ExistingUser() {
         required
       />
       <Button
-        onClick={() => {
-          setSubmittedPatientNumber(Number(patientNumber));
-          if (data?.success) {
-            setModal("symptoms");
-          }
-        }}
+        
         type="submit"
         className="w-full"
       >
         Proceed
       </Button>
-    </div>
+    </form>
   );
 }

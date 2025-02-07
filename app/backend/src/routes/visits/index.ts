@@ -1,7 +1,7 @@
 import { Response, Router } from "express";
-import { NewVisitSchema } from "../../validation/visit";
-import { createVisit } from "./controller";
-import { CreateVisitResponse } from "./types";
+import { GetVisitsSchema, NewVisitSchema } from "../../validation/visit";
+import { createVisit, getVisits } from "./controller";
+import { CreateVisitResponse, GetVisitsResponse } from "./types";
 import singleVisitRouter from "./visit";
 
 const visitsRouter = Router();
@@ -18,4 +18,14 @@ visitsRouter.post("/", async (req, res: Response<CreateVisitResponse>) => {
   });
 });
 
+visitsRouter.get("/", async (req, res: Response<GetVisitsResponse>) => {
+  const data = GetVisitsSchema.parse(req.query);
+  const visits = await getVisits(data);
+
+  res.json({
+    success: true,
+    message: "Successfully retrieved visits",
+    visits,
+  });
+});
 export default visitsRouter;

@@ -1,8 +1,8 @@
 import { Response, Router } from "express";
 import singlePatientRouter from "./patient";
 import { NewPatientSchema } from "../../validation/patient";
-import { createPatient } from "./controller";
-import { CreatePatientResponse } from "./types";
+import { createPatient, getAllPatients } from "./controller";
+import { CreatePatientResponse, GetAllPatientsResponse } from "./types";
 import { StatusCodes } from "http-status-codes";
 
 const patientsRouter = Router();
@@ -17,6 +17,16 @@ patientsRouter.post("/", async (req, res: Response<CreatePatientResponse>) => {
     success: true,
     message: "Patient Registered Successfully",
     patient: patient,
+  });
+});
+
+patientsRouter.get("/", async (req, res: Response<GetAllPatientsResponse>) => {
+  const patients = await getAllPatients();
+
+  res.json({
+    success: true,
+    message: `Retrieved ${patients.length} patients`,
+    patients,
   });
 });
 

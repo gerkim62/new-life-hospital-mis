@@ -15,6 +15,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as VisitsIndexImport } from './routes/visits/index'
+import { Route as StockIndexImport } from './routes/stock/index'
+import { Route as PatientsIndexImport } from './routes/patients/index'
+import { Route as LabsIndexImport } from './routes/labs/index'
 import { Route as VisitsVisitIdImport } from './routes/visits/$visitId'
 import { Route as PatientsPatientIdImport } from './routes/patients/$patientId'
 import { Route as AuthSignupImport } from './routes/auth/signup'
@@ -41,6 +44,24 @@ const IndexRoute = IndexImport.update({
 const VisitsIndexRoute = VisitsIndexImport.update({
   id: '/visits/',
   path: '/visits/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StockIndexRoute = StockIndexImport.update({
+  id: '/stock/',
+  path: '/stock/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PatientsIndexRoute = PatientsIndexImport.update({
+  id: '/patients/',
+  path: '/patients/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LabsIndexRoute = LabsIndexImport.update({
+  id: '/labs/',
+  path: '/labs/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -114,6 +135,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VisitsVisitIdImport
       parentRoute: typeof rootRoute
     }
+    '/labs/': {
+      id: '/labs/'
+      path: '/labs'
+      fullPath: '/labs'
+      preLoaderRoute: typeof LabsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/patients/': {
+      id: '/patients/'
+      path: '/patients'
+      fullPath: '/patients'
+      preLoaderRoute: typeof PatientsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/stock/': {
+      id: '/stock/'
+      path: '/stock'
+      fullPath: '/stock'
+      preLoaderRoute: typeof StockIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/visits/': {
       id: '/visits/'
       path: '/visits'
@@ -133,6 +175,9 @@ export interface FileRoutesByFullPath {
   '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
+  '/labs': typeof LabsIndexRoute
+  '/patients': typeof PatientsIndexRoute
+  '/stock': typeof StockIndexRoute
   '/visits': typeof VisitsIndexRoute
 }
 
@@ -143,6 +188,9 @@ export interface FileRoutesByTo {
   '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
+  '/labs': typeof LabsIndexRoute
+  '/patients': typeof PatientsIndexRoute
+  '/stock': typeof StockIndexRoute
   '/visits': typeof VisitsIndexRoute
 }
 
@@ -154,6 +202,9 @@ export interface FileRoutesById {
   '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
+  '/labs/': typeof LabsIndexRoute
+  '/patients/': typeof PatientsIndexRoute
+  '/stock/': typeof StockIndexRoute
   '/visits/': typeof VisitsIndexRoute
 }
 
@@ -166,6 +217,9 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/patients/$patientId'
     | '/visits/$visitId'
+    | '/labs'
+    | '/patients'
+    | '/stock'
     | '/visits'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -175,6 +229,9 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/patients/$patientId'
     | '/visits/$visitId'
+    | '/labs'
+    | '/patients'
+    | '/stock'
     | '/visits'
   id:
     | '__root__'
@@ -184,6 +241,9 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/patients/$patientId'
     | '/visits/$visitId'
+    | '/labs/'
+    | '/patients/'
+    | '/stock/'
     | '/visits/'
   fileRoutesById: FileRoutesById
 }
@@ -195,6 +255,9 @@ export interface RootRouteChildren {
   AuthSignupRoute: typeof AuthSignupRoute
   PatientsPatientIdRoute: typeof PatientsPatientIdRoute
   VisitsVisitIdRoute: typeof VisitsVisitIdRoute
+  LabsIndexRoute: typeof LabsIndexRoute
+  PatientsIndexRoute: typeof PatientsIndexRoute
+  StockIndexRoute: typeof StockIndexRoute
   VisitsIndexRoute: typeof VisitsIndexRoute
 }
 
@@ -205,6 +268,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthSignupRoute: AuthSignupRoute,
   PatientsPatientIdRoute: PatientsPatientIdRoute,
   VisitsVisitIdRoute: VisitsVisitIdRoute,
+  LabsIndexRoute: LabsIndexRoute,
+  PatientsIndexRoute: PatientsIndexRoute,
+  StockIndexRoute: StockIndexRoute,
   VisitsIndexRoute: VisitsIndexRoute,
 }
 
@@ -224,6 +290,9 @@ export const routeTree = rootRoute
         "/auth/signup",
         "/patients/$patientId",
         "/visits/$visitId",
+        "/labs/",
+        "/patients/",
+        "/stock/",
         "/visits/"
       ]
     },
@@ -244,6 +313,15 @@ export const routeTree = rootRoute
     },
     "/visits/$visitId": {
       "filePath": "visits/$visitId.tsx"
+    },
+    "/labs/": {
+      "filePath": "labs/index.tsx"
+    },
+    "/patients/": {
+      "filePath": "patients/index.tsx"
+    },
+    "/stock/": {
+      "filePath": "stock/index.tsx"
     },
     "/visits/": {
       "filePath": "visits/index.tsx"

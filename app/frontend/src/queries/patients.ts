@@ -1,4 +1,5 @@
 import { PatientRouteResponse } from "@app/backend/src/routes/patients/patient/types";
+import { GetAllPatientsResponse } from "@app/backend/src/routes/patients/types";
 
 async function getPatient(id: number) {
   const res = await fetch(`/api/v1/patients/${id}`);
@@ -7,7 +8,11 @@ async function getPatient(id: number) {
   return data;
 }
 
+async function getAllPatients() {
+  const res = await fetch(`/api/v1/patients`);
+  const data: GetAllPatientsResponse = await res.json();
 
+  return data;
+}
 
-export { getPatient };
-
+export { getPatient, getAllPatients };

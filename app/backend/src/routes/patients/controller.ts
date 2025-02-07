@@ -1,5 +1,5 @@
 import { NewPatientValues } from "../../validation/patient";
-import prisma from "../libs/prisma";
+import prisma from "../../libs/prisma";
 
 async function createPatient(data: NewPatientValues) {
   const patient = await prisma.patient.create({
@@ -14,4 +14,10 @@ async function createPatient(data: NewPatientValues) {
   return patient;
 }
 
-export { createPatient };
+async function getAllPatients() {
+  const patients = await prisma.patient.findMany();
+
+  return patients;
+}
+
+export { createPatient, getAllPatients };

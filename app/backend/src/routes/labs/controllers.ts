@@ -1,5 +1,5 @@
 import { NewLabInput } from "../../validation/lab";
-import prisma from "../libs/prisma";
+import prisma from "../../libs/prisma";
 
 async function addLab(data: NewLabInput) {
   const { visitId, ...rest } = data;
@@ -13,4 +13,18 @@ async function addLab(data: NewLabInput) {
   return lab;
 }
 
-export { addLab };
+async function getALlLabs() {
+  const labs = await prisma.lab.findMany({
+    include: {
+      patientVisit: {
+        include: {
+          patient: true,
+        },
+      },
+    },
+  });
+
+  return labs;
+}
+
+export { addLab, getALlLabs };

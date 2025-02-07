@@ -1,4 +1,4 @@
-import PatientProfilePage from "@/components/pages/patient/profile";
+import PatientProfilePage from "@/components/pages/patients/profile";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/patients/$patientId")({
