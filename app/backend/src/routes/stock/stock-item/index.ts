@@ -13,16 +13,22 @@ const stockItemRouter = Router({
 
 stockItemRouter.get(
   "/",
-  async (req, res: Response<GetStockItemMovementsResponse>) => {}
+  async (req, res: Response<GetStockItemMovementsResponse>) => {
+    res.json({
+      success: true,
+      message: `Retrieved stock item movements`,
+      movements: [],
+    });
+  }
 );
 
 stockItemRouter.post(
   "/movements",
   async (req, res: Response<AddStockItemMovementResponse>) => {
     const data = NewStockItemMovementSchema.parse(req.body);
-    const { itemId } = z
+    const { stockItemId: itemId } = z
       .object({
-        itemId: z.string(),
+        stockItemId: z.string(),
       })
       .parse(req.params);
     console.log("data", data);

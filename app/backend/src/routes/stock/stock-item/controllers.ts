@@ -1,29 +1,53 @@
 import prisma from "../../../libs/prisma";
 import { NewStockItemMovementOutput } from "../../../validation/stock-item";
-import { Prisma } from "@prisma/client";
 
 async function addStockItemMovement(
   data: NewStockItemMovementOutput & { itemId: string }
 ) {
-  try {
-    return await prisma.stockMovement.create({
+  const item = await prisma.stockItem.findUnique({
+    where: {
+      id: data.itemId,
+    },
+  });
+
+  if (!item) {
+    return null;
+  }
+
+  const quantityAddition =
+    data.type === "IN"
+      ? data.quantity
+      : data.type === "OUT"
+        ? -data.quantity
+        : 0;
+
+  console.log("quantityAddition", quantityAddition);
+  const movement = await prisma.$transaction(async (tx) => {
+    const movement = await tx.stockMovement.create({
       data: {
         batchPriceKes: data.batchPriceKes,
         quantity: data.quantity,
         type: data.type,
         itemId: data.itemId,
+        description: data.description ?? null,
       },
     });
-  } catch (error) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2003"
-    ) {
-      // Foreign key constraint failed (stock item does not exist)
-      return null;
-    }
-    throw error; // Rethrow other unexpected errors
-  }
+
+    await tx.stockItem.update({
+      where: {
+        id: data.itemId,
+      },
+      data: {
+        quantity: {
+          increment: quantityAddition,
+        },
+      },
+    });
+
+    return movement;
+  });
+
+  return movement;
 }
 
 export { addStockItemMovement };

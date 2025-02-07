@@ -6,7 +6,7 @@ import stockItemRouter from "./stock-item";
 
 const stockRouter = Router();
 
-stockRouter.use(":/stockItemId", stockItemRouter);
+stockRouter.use("/:stockItemId", stockItemRouter);
 
 stockRouter.get("/", async (req, res: Response<GetAllStockItemsResponse>) => {
   const items = await getAllStockItems();

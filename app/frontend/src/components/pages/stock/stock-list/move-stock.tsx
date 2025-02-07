@@ -1,16 +1,16 @@
 import Loader from "@/components/small/loader";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createStockMovement } from "@/mutations/stock/movements";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -31,6 +31,8 @@ export function MoveStockItemModal({ toggle, item }: Props) {
   const [movementType, setMovementType] = useState<"IN" | "OUT" | null>(null);
   const [priceType, setPriceType] = useState<"UNIT" | "BULK" | null>(null);
   const [price, setPrice] = useState("");
+
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
@@ -56,6 +58,10 @@ export function MoveStockItemModal({ toggle, item }: Props) {
         toggle(false);
 
         toast.success(data.message);
+
+        queryClient.invalidateQueries({
+          queryKey: ["stockItems"],
+        });
       } else toast.error(data.message);
     },
   });
