@@ -64,6 +64,13 @@ const LabList = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
+              {filteredLabs.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center">
+                    No labs found
+                  </TableCell>
+                </TableRow>
+              )}
               {filteredLabs.map((lab, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">
