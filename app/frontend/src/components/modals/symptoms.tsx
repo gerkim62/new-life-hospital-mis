@@ -74,7 +74,6 @@ const SymptomsModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      {isSubmitting && <Loader message="Submitting symptoms..." />}
       {showOnAddedSymptomsModal && visitData?.success && (
         <OnAddedSymptoms
           open={showOnAddedSymptomsModal}
@@ -88,6 +87,8 @@ const SymptomsModal = ({
         />
       )}
       <DialogContent className="sm:max-w-[500px]">
+        
+      {isSubmitting && <Loader message="Submitting symptoms..." />}
         <DialogHeader>
           <DialogTitle>Patient Symptoms Entry</DialogTitle>
           <DialogDescription>
