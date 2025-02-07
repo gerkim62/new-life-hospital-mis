@@ -20,7 +20,7 @@ patientsRouter.post("/", async (req, res: Response<CreatePatientResponse>) => {
   });
 });
 
-patientsRouter.get("/", async (req, res: Response<GetAllPatientsResponse>) => {
+patientsRouter.get("/", async (_, res: Response<GetAllPatientsResponse>) => {
   const patients = await getAllPatients();
 
   res.json({

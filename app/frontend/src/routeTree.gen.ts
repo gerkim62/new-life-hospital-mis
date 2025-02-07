@@ -19,6 +19,7 @@ import { Route as StockIndexImport } from './routes/stock/index'
 import { Route as PatientsIndexImport } from './routes/patients/index'
 import { Route as LabsIndexImport } from './routes/labs/index'
 import { Route as VisitsVisitIdImport } from './routes/visits/$visitId'
+import { Route as StockItemIdImport } from './routes/stock/$itemId'
 import { Route as PatientsPatientIdImport } from './routes/patients/$patientId'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthLoginImport } from './routes/auth/login'
@@ -68,6 +69,12 @@ const LabsIndexRoute = LabsIndexImport.update({
 const VisitsVisitIdRoute = VisitsVisitIdImport.update({
   id: '/visits/$visitId',
   path: '/visits/$visitId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StockItemIdRoute = StockItemIdImport.update({
+  id: '/stock/$itemId',
+  path: '/stock/$itemId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -128,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PatientsPatientIdImport
       parentRoute: typeof rootRoute
     }
+    '/stock/$itemId': {
+      id: '/stock/$itemId'
+      path: '/stock/$itemId'
+      fullPath: '/stock/$itemId'
+      preLoaderRoute: typeof StockItemIdImport
+      parentRoute: typeof rootRoute
+    }
     '/visits/$visitId': {
       id: '/visits/$visitId'
       path: '/visits/$visitId'
@@ -174,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
+  '/stock/$itemId': typeof StockItemIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
   '/labs': typeof LabsIndexRoute
   '/patients': typeof PatientsIndexRoute
@@ -187,6 +202,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
+  '/stock/$itemId': typeof StockItemIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
   '/labs': typeof LabsIndexRoute
   '/patients': typeof PatientsIndexRoute
@@ -201,6 +217,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
+  '/stock/$itemId': typeof StockItemIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
   '/labs/': typeof LabsIndexRoute
   '/patients/': typeof PatientsIndexRoute
@@ -216,6 +233,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/patients/$patientId'
+    | '/stock/$itemId'
     | '/visits/$visitId'
     | '/labs'
     | '/patients'
@@ -228,6 +246,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/patients/$patientId'
+    | '/stock/$itemId'
     | '/visits/$visitId'
     | '/labs'
     | '/patients'
@@ -240,6 +259,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/patients/$patientId'
+    | '/stock/$itemId'
     | '/visits/$visitId'
     | '/labs/'
     | '/patients/'
@@ -254,6 +274,7 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   PatientsPatientIdRoute: typeof PatientsPatientIdRoute
+  StockItemIdRoute: typeof StockItemIdRoute
   VisitsVisitIdRoute: typeof VisitsVisitIdRoute
   LabsIndexRoute: typeof LabsIndexRoute
   PatientsIndexRoute: typeof PatientsIndexRoute
@@ -267,6 +288,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   PatientsPatientIdRoute: PatientsPatientIdRoute,
+  StockItemIdRoute: StockItemIdRoute,
   VisitsVisitIdRoute: VisitsVisitIdRoute,
   LabsIndexRoute: LabsIndexRoute,
   PatientsIndexRoute: PatientsIndexRoute,
@@ -289,6 +311,7 @@ export const routeTree = rootRoute
         "/auth/login",
         "/auth/signup",
         "/patients/$patientId",
+        "/stock/$itemId",
         "/visits/$visitId",
         "/labs/",
         "/patients/",
@@ -310,6 +333,9 @@ export const routeTree = rootRoute
     },
     "/patients/$patientId": {
       "filePath": "patients/$patientId.tsx"
+    },
+    "/stock/$itemId": {
+      "filePath": "stock/$itemId.tsx"
     },
     "/visits/$visitId": {
       "filePath": "visits/$visitId.tsx"

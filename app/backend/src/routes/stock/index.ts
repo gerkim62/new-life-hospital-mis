@@ -8,7 +8,7 @@ const stockRouter = Router();
 
 stockRouter.use("/:stockItemId", stockItemRouter);
 
-stockRouter.get("/", async (req, res: Response<GetAllStockItemsResponse>) => {
+stockRouter.get("/", async (_, res: Response<GetAllStockItemsResponse>) => {
   const items = await getAllStockItems();
 
   res.json({

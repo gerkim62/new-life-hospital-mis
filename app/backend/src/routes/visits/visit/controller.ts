@@ -41,7 +41,7 @@ async function getVisit(id: string): Promise<ComprehensiveVisit | null> {
       if (drug.stockMovement !== null) {
         return {
           ...drug,
-          price: drug.stockMovement.priceKes,
+          price: drug.stockMovement.batchPriceKes,
           fromStock: true,
           quantity: drug.stockMovement.quantity,
           unit: drug.stockMovement.item.unit,

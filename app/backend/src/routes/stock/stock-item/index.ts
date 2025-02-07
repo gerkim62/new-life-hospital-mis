@@ -4,7 +4,7 @@ import {
   GetStockItemMovementsResponse,
 } from "./types";
 import { NewStockItemMovementSchema } from "../../../validation/stock-item";
-import { addStockItemMovement } from "./controllers";
+import { addStockItemMovement, getAllStockMovements } from "./controllers";
 import { z } from "zod";
 
 const stockItemRouter = Router({
@@ -12,12 +12,20 @@ const stockItemRouter = Router({
 });
 
 stockItemRouter.get(
-  "/",
+  "/movements",
   async (req, res: Response<GetStockItemMovementsResponse>) => {
+    const { stockItemId: itemId } = z
+      .object({
+        stockItemId: z.string(),
+      })
+      .parse(req.params);
+
+    const movements = await getAllStockMovements({ itemId });
+
     res.json({
       success: true,
-      message: `Retrieved stock item movements`,
-      movements: [],
+      message: `Retrieved ${movements.length} stock movements`,
+      movements,
     });
   }
 );

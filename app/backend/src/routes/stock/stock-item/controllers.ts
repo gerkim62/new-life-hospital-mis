@@ -50,4 +50,14 @@ async function addStockItemMovement(
   return movement;
 }
 
-export { addStockItemMovement };
+async function getAllStockMovements({ itemId }: { itemId: string }) {
+  const movements = await prisma.stockMovement.findMany({
+    where: {
+      itemId,
+    },
+  });
+
+  return movements;
+}
+
+export { addStockItemMovement, getAllStockMovements };

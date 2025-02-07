@@ -88,7 +88,9 @@ export function StockList() {
                         +/-
                       </Button>
                       <Button asChild variant="outline">
-                        <Link to="/stock">View History &rarr;</Link>
+                        <Link params={{ itemId: item.id }} to="/stock/$itemId">
+                          View History &rarr;
+                        </Link>
                       </Button>
                     </TableCell>
                   </TableRow>

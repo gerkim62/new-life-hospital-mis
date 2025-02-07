@@ -16,7 +16,7 @@ labsRouter.post("/", async (req, res: Response<CreateLabResponse>) => {
   });
 });
 
-labsRouter.get("/", async (req, res: Response<GetAllLabsResponse>) => {
+labsRouter.get("/", async (_, res: Response<GetAllLabsResponse>) => {
   const labs = await getALlLabs();
 
   res.json({
