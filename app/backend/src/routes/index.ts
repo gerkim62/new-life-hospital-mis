@@ -12,4 +12,8 @@ indexRouter.use("/visits", visitsRouter);
 indexRouter.use("/labs", labsRouter);
 indexRouter.use("/stock", stockRouter);
 
+indexRouter.get("/health", (_, res) => {
+  res.json({ status: "ok" });
+});
+
 export default indexRouter;

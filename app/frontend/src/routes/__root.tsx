@@ -13,7 +13,7 @@ export const Route = createRootRoute({
       <p className="text-sm text-gray-500 flex items-center justify-center gap-1">
         Designed & developed by{" "}
         <a
-          href="https://wa.me/254715870654?text=Hello%2C%20I%20need%20a%20software%20(from%20developer.gerison)"
+          href="https://wa.me/254715870654?text=Hello%2C%20I%20need%20a%20software%20(from%20hms-new-life-hosp)"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-500 font-medium hover:underline flex items-center gap-1"
