@@ -94,6 +94,8 @@ export default function MedicalInfoEdit({
                 Diagnosis
               </Label>
               <Textarea
+              required
+              minLength={1}
                 id="diagnosis"
                 defaultValue={diagnosis || ""}
                 className="mt-1"
@@ -112,6 +114,8 @@ export default function MedicalInfoEdit({
                 Treatment
               </Label>
               <Textarea
+              required
+              minLength={1}
                 id="treatment"
                 defaultValue={treatment || ""}
                 className="mt-1"
@@ -128,6 +132,7 @@ export default function MedicalInfoEdit({
                 Notes
               </Label>
               <Textarea
+              
                 id="notes"
                 defaultValue={notes || ""}
                 className="mt-1"

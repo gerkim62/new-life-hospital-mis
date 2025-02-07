@@ -87,8 +87,7 @@ const SymptomsModal = ({
         />
       )}
       <DialogContent className="sm:max-w-[500px]">
-        
-      {isSubmitting && <Loader message="Submitting symptoms..." />}
+        {isSubmitting && <Loader message="Submitting symptoms..." />}
         <DialogHeader>
           <DialogTitle>Patient Symptoms Entry</DialogTitle>
           <DialogDescription>
@@ -127,14 +126,10 @@ const SymptomsModal = ({
         </div>
 
         <DialogFooter className="space-x-4">
-          <Button
-          disabled={isSubmitting}
-           variant="outline" onClick={onClose}>
+          <Button disabled={isSubmitting} variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button
-          disabled={isSubmitting}
-           onClick={handleSubmit} disabled={!symptoms.trim()}>
+          <Button disabled={isSubmitting || !symptoms} onClick={handleSubmit}>
             Submit
           </Button>
         </DialogFooter>
