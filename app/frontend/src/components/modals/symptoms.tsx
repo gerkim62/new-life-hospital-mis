@@ -125,11 +125,20 @@ const SymptomsModal = ({
           </div>
         </div>
 
-        <DialogFooter className="space-x-4">
-          <Button disabled={isSubmitting} variant="outline" onClick={onClose}>
+        <DialogFooter className="">
+          <Button
+            className="my-2"
+            disabled={isSubmitting}
+            variant="outline"
+            onClick={onClose}
+          >
             Cancel
           </Button>
-          <Button disabled={isSubmitting || !symptoms} onClick={handleSubmit}>
+          <Button
+            className="my-2"
+            disabled={isSubmitting || !symptoms}
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </DialogFooter>
