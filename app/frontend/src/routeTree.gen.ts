@@ -22,8 +22,6 @@ import { Route as LabsIndexImport } from './routes/labs/index'
 import { Route as VisitsVisitIdImport } from './routes/visits/$visitId'
 import { Route as StockItemIdImport } from './routes/stock/$itemId'
 import { Route as PatientsPatientIdImport } from './routes/patients/$patientId'
-import { Route as AuthSignupImport } from './routes/auth/signup'
-import { Route as AuthLoginImport } from './routes/auth/login'
 
 // Create Virtual Routes
 
@@ -91,18 +89,6 @@ const PatientsPatientIdRoute = PatientsPatientIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthSignupRoute = AuthSignupImport.update({
-  id: '/auth/signup',
-  path: '/auth/signup',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthLoginRoute = AuthLoginImport.update({
-  id: '/auth/login',
-  path: '/auth/login',
-  getParentRoute: () => rootRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -126,20 +112,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/auth/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/auth/signup': {
-      id: '/auth/signup'
-      path: '/auth/signup'
-      fullPath: '/auth/signup'
-      preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof rootRoute
     }
     '/patients/$patientId': {
@@ -200,8 +172,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/about': typeof AboutLazyRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/stock/$itemId': typeof StockItemIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
@@ -215,8 +185,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/about': typeof AboutLazyRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/stock/$itemId': typeof StockItemIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
@@ -231,8 +199,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/about': typeof AboutLazyRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/signup': typeof AuthSignupRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/stock/$itemId': typeof StockItemIdRoute
   '/visits/$visitId': typeof VisitsVisitIdRoute
@@ -248,8 +214,6 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/about'
-    | '/auth/login'
-    | '/auth/signup'
     | '/patients/$patientId'
     | '/stock/$itemId'
     | '/visits/$visitId'
@@ -262,8 +226,6 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/about'
-    | '/auth/login'
-    | '/auth/signup'
     | '/patients/$patientId'
     | '/stock/$itemId'
     | '/visits/$visitId'
@@ -276,8 +238,6 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/about'
-    | '/auth/login'
-    | '/auth/signup'
     | '/patients/$patientId'
     | '/stock/$itemId'
     | '/visits/$visitId'
@@ -292,8 +252,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   AboutLazyRoute: typeof AboutLazyRoute
-  AuthLoginRoute: typeof AuthLoginRoute
-  AuthSignupRoute: typeof AuthSignupRoute
   PatientsPatientIdRoute: typeof PatientsPatientIdRoute
   StockItemIdRoute: typeof StockItemIdRoute
   VisitsVisitIdRoute: typeof VisitsVisitIdRoute
@@ -307,8 +265,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   AboutLazyRoute: AboutLazyRoute,
-  AuthLoginRoute: AuthLoginRoute,
-  AuthSignupRoute: AuthSignupRoute,
   PatientsPatientIdRoute: PatientsPatientIdRoute,
   StockItemIdRoute: StockItemIdRoute,
   VisitsVisitIdRoute: VisitsVisitIdRoute,
@@ -331,8 +287,6 @@ export const routeTree = rootRoute
         "/",
         "/dashboard",
         "/about",
-        "/auth/login",
-        "/auth/signup",
         "/patients/$patientId",
         "/stock/$itemId",
         "/visits/$visitId",
@@ -350,12 +304,6 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.lazy.tsx"
-    },
-    "/auth/login": {
-      "filePath": "auth/login.tsx"
-    },
-    "/auth/signup": {
-      "filePath": "auth/signup.tsx"
     },
     "/patients/$patientId": {
       "filePath": "patients/$patientId.tsx"
