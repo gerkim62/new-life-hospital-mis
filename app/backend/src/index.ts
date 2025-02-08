@@ -1,11 +1,11 @@
-import express from "express";
-import path from "path";
 import "dotenv/config";
-import indexRouter from "./routes";
-import { errorHandlerMiddleware } from "./middlewares/error-handler";
+import express from "express";
 import "express-async-errors";
 import basicAuth from "express-basic-auth";
-import { ApiResponse } from "./types/api/response";
+import path from "path";
+import { errorHandlerMiddleware } from "./middlewares/error-handler";
+import indexRouter from "./routes";
+import { unauthorizedResponse } from "./unauthized";
 
 const PORT = process.env["PORT"] || 3000;
 const app = express();
@@ -23,12 +23,8 @@ app.use(
     users: { admin: adminPassword },
     challenge: true,
     realm: "Imb4T3st4pp",
-    unauthorizedResponse: (): ApiResponse<unknown, unknown, "data"> => {
-      return {
-        success: false,
-        message: "Unauthorized",
-        errors: [],
-      };
+    unauthorizedResponse: () => {
+      return unauthorizedResponse;
     },
   })
 );
