@@ -4,11 +4,34 @@ import "dotenv/config";
 import indexRouter from "./routes";
 import { errorHandlerMiddleware } from "./middlewares/error-handler";
 import "express-async-errors";
+import basicAuth from "express-basic-auth";
+import { ApiResponse } from "./types/api/response";
 
 const PORT = process.env["PORT"] || 3000;
 const app = express();
 app.use(express.json());
 
+const adminPassword = process.env["ADMIN_PASSWORD"];
+
+if (!adminPassword) {
+  console.error("ADMIN_PASSWORD is not set.");
+  process.exit(1);
+}
+
+app.use(
+  basicAuth({
+    users: { admin: adminPassword },
+    challenge: true,
+    realm: "Imb4T3st4pp",
+    unauthorizedResponse: (): ApiResponse<unknown, unknown, "data"> => {
+      return {
+        success: false,
+        message: "Unauthorized",
+        errors: [],
+      };
+    },
+  })
+);
 app.use("/api/v1", indexRouter);
 
 const ___baseDir = path.resolve();
