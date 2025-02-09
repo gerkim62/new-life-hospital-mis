@@ -144,7 +144,9 @@ const ReceiptPdf = ({
           <Text style={styles.infoLine}>
             Patient: {receiptData.patient.name}
           </Text>
-          <Text style={styles.infoLine}>Patient ID: {receiptData.patient.id}</Text>
+          <Text style={styles.infoLine}>
+            Patient ID: {receiptData.patient.id}
+          </Text>
           <Text style={styles.infoLine}>
             Arrival: {formatDateTime(receiptData.patient.arrivalTime)}
           </Text>
@@ -188,7 +190,9 @@ const ReceiptPdf = ({
 
         {/* Footer */}
         <View style={styles.footer}>
-          <Text>Thank you for your visit!</Text>
+          <Text>
+            Thank you for choosing {receiptData.hospital.name}. Get well soon!
+          </Text>
         </View>
       </Page>
     </Document>

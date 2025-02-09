@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import usePatient from "@/hooks/use-patient";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -17,17 +18,16 @@ export default function ExistingUser() {
 
   const [modal, setModal] = useState<null | "symptoms">(null);
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     console.log(data);
     if (isLoading || !data) return;
     if (data?.success) {
       setModal("symptoms");
     } else {
-      toast.error(data?.message ?? "Something went wrong", {
-        toastId: "patient-error"+patientNumber,
-      });
+      toast.error(data.message);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isLoading]);
 
   return (
@@ -40,13 +40,10 @@ export default function ExistingUser() {
 
         if (data?.success) {
           setModal("symptoms");
-        } else {
-          setTimeout(() => {
-            toast.error(data?.message ?? "Something went wrong", {
-              toastId: "patient-error" + patientNumber,
-            });
-          }, 0);
-        }
+        } else
+          queryClient.invalidateQueries({
+            queryKey: ["patient", submittedPatientNumber],
+          });
       }}
       className="space-y-2"
     >
