@@ -7,9 +7,10 @@ import {
   Eye,
   FileText,
   Info,
-  MessageSquare
+  MessageSquare,
 } from "lucide-react";
 import AddLabResultModal from "./add-lab-result-modal";
+import { formatCurrency } from "@/lib/format";
 
 type LabItemProps = {
   lab: {
@@ -53,12 +54,8 @@ export default function LabItem({
             </div>
             <div className="flex items-center space-x-2">
               <span className="text-sm font-medium text-gray-900 flex items-center">
-                <span
-                className="mr-1 text-muted-foreground"
-                >
-                  Lab Fees:{" "}
-                </span>
-                KES {lab.fees.toLocaleString()}
+                <span className="mr-1 text-muted-foreground">Lab Fees: </span>
+                {formatCurrency(lab.fees)}
               </span>
               <button
                 hidden

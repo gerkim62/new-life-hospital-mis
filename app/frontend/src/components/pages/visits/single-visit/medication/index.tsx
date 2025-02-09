@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { DrugSelectionStockModal } from "./drug-selection-modal";
 
 type Props = {
   drugs: Drug[];
@@ -24,7 +23,11 @@ type Drug = {
 };
 
 export default function Medication({ drugs }: Props) {
-  const [selectionModalOpen, setSelectionModalOpen] = useState(false);
+  const [
+    ,
+    // selectionModalOpen
+    setSelectionModalOpen,
+  ] = useState(false);
   return (
     <Card className="border border-gray-200 shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -36,11 +39,11 @@ export default function Medication({ drugs }: Props) {
         >
           <Plus className="h-4 w-4" /> Add Medication
         </Button>
-        {selectionModalOpen && (
-          <DrugSelectionStockModal
-            onClose={() => setSelectionModalOpen(false)}
-          />
-        )}
+        {/* {selectionModalOpen && (
+          // <MedicationSelectionStockModal
+          //   onClose={() => setSelectionModalOpen(false)}
+          // />
+        )} */}
       </CardHeader>
       <CardContent>
         <Table>

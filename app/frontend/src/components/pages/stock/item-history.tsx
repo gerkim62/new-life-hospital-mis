@@ -15,7 +15,7 @@ import { getItemMovements } from "@/queries/stock";
 import { Route } from "@/routes/stock/$itemId";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDateTime } from "@/lib/format";
 
 interface StockMovement {
   type: string;
@@ -61,7 +61,7 @@ export default function StockMovementsHistory() {
                 <TableHead>Type</TableHead>
                 <TableHead>Description</TableHead>
                 <TableHead>Quantity</TableHead>
-                <TableHead>Batch Price (KES)</TableHead>
+                <TableHead>Batch Price</TableHead>
                 <TableHead>Unit Price</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -84,10 +84,23 @@ export default function StockMovementsHistory() {
                       {movement.type}
                     </TableCell>
                     <TableCell>{movement.description || "N/A"}</TableCell>
-                    <TableCell>{movement.quantity}</TableCell>
-                    <TableCell>{movement.batchPriceKes.toFixed(2)}</TableCell>
+                    <TableCell
+                      className={
+                        movement.type === "IN"
+                          ? "text-green-500 font-bold"
+                          : "text-yellow-500 font-bold"
+                      }
+                    >
+                      {movement.type === "IN" ? "+" : "-"}
+                      {movement.quantity}
+                    </TableCell>
                     <TableCell>
-                      {(movement.batchPriceKes / movement.quantity).toFixed(2)}
+                      {formatCurrency(movement.batchPriceKes)}
+                    </TableCell>
+                    <TableCell>
+                      {formatCurrency(
+                        movement.batchPriceKes / movement.quantity
+                      )}
                     </TableCell>
                     <TableCell>{formatDateTime(movement.createdAt)}</TableCell>
                     <TableCell className="text-right">

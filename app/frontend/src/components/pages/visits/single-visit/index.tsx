@@ -7,8 +7,10 @@ import PatientInfo from "./patient-info";
 import { Route } from "@/routes/visits/$visitId";
 import Loader from "@/components/small/loader";
 import { formatDateTime } from "@/lib/format";
+import useCurrentDate from "@/hooks/use-current-date";
 
 const VisitDetailsPage = () => {
+  const currentDate = useCurrentDate();
   const { data, isLoading } = useVisit(Route.useParams().visitId);
 
   if (!data?.success && !isLoading) {
@@ -32,32 +34,7 @@ const VisitDetailsPage = () => {
 
   const visit = data.visit;
 
-  // Calculate total expenses including medications from stock
-  const medicationExpenses = visit.drugs.reduce((acc, drug) => {
-    if (drug.fromStock && drug.price) {
-      return acc + drug.price;
-    }
-    return acc;
-  }, 0);
-
-  const labFees = visit.labs.reduce((acc, lab) => {
-    if (lab.result) {
-      return acc + lab.feesKes;
-    }
-    return acc;
-  }, 0);
-
-  const allExpenses = [
-    ...visit.expenses,
-    {
-      name: "Medication",
-      amount: medicationExpenses,
-    },
-    {
-      name: "Lab Fees",
-      amount: labFees,
-    },
-  ];
+  console.log(visit.labs);
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -103,7 +80,36 @@ const VisitDetailsPage = () => {
       <Medication drugs={visit.drugs} />
 
       {/* Expenses */}
-      <Expenses expenses={allExpenses} />
+      <Expenses
+        patient={{
+          name: visit.patient.name,
+          arrivalTime: visit.arrivalTime,
+          id: visit.patient.id,
+          printedTime: new Date(currentDate),
+        }}
+        labs={
+          visit.labs.map((lab) => ({
+            name: lab.name,
+            price: lab.feesKes,
+          })) ?? []
+        }
+        medications={
+          visit.drugs
+            .filter((drug) => drug.fromStock)
+            .map((drug) => ({
+              name: drug.name,
+              price: drug.price,
+              description: drug.description,
+            })) ?? []
+        }
+        otherExpenses={
+          visit.expenses.map((expense) => ({
+            name: expense.name,
+            price: expense.amount,
+            description: expense.description ?? undefined,
+          })) ?? []
+        }
+      />
     </div>
   );
 };

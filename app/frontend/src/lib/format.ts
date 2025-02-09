@@ -14,6 +14,15 @@ const shortDateFormatter = new Intl.DateTimeFormat("en-KE", {
   day: "numeric",
 });
 
+const currencyFormatter = new Intl.NumberFormat("en-KE", {
+  style: "currency",
+  currency: "KES",
+});
+
+function formatCurrency(amount: number): string {
+  return currencyFormatter.format(amount);
+}
+
 function formatDateTime(date: Date): string {
   date = new Date(date);
   console.log("formatDateTime -> date", date);
@@ -26,4 +35,4 @@ function formatTime(date: Date) {
   return shortDateFormatter.format(date);
 }
 
-export { formatDateTime, formatTime };
+export { formatDateTime, formatTime, formatCurrency };

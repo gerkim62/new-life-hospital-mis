@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatCurrency } from "@/lib/format";
 import { getALlLabs } from "@/queries/labs";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -60,7 +61,7 @@ const LabList = () => {
                 <TableHead>Patient Name</TableHead>
                 <TableHead>Test Name</TableHead>
                 <TableHead>Description</TableHead>
-                <TableHead>Fees (KES)</TableHead>
+                <TableHead>Fees</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Action</TableHead>
               </TableRow>
@@ -81,12 +82,12 @@ const LabList = () => {
                   <TableCell>{lab.patientVisit.patient.name}</TableCell>
                   <TableCell>{lab.name}</TableCell>
                   <TableCell>{lab.description}</TableCell>
-                  <TableCell>{lab.feesKes.toLocaleString()}</TableCell>
+                  <TableCell>{formatCurrency(lab.feesKes)}</TableCell>
                   <TableCell>
                     <Badge
                       variant={lab.status === "DONE" ? "default" : "secondary"}
                     >
-                      {lab.status }
+                      {lab.status}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
