@@ -9,8 +9,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Plus } from "lucide-react";
-import DrugSelectionModal from "./drug-selection-modal";
 import { useState } from "react";
+import { DrugSelectionStockModal } from "./drug-selection-modal";
 
 type Props = {
   drugs: Drug[];
@@ -34,12 +34,13 @@ export default function Medication({ drugs }: Props) {
           variant="ghost"
           size="icon"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-4 w-4" /> Add Medication
         </Button>
-        <DrugSelectionModal
-          open={selectionModalOpen}
-          onClose={()=>setSelectionModalOpen(false)}
-        />
+        {selectionModalOpen && (
+          <DrugSelectionStockModal
+            onClose={() => setSelectionModalOpen(false)}
+          />
+        )}
       </CardHeader>
       <CardContent>
         <Table>
