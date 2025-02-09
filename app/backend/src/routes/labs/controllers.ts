@@ -22,6 +22,9 @@ async function getALlLabs() {
         },
       },
     },
+    orderBy: {
+      updatedAt: "desc",
+    },
   });
 
   return labs;

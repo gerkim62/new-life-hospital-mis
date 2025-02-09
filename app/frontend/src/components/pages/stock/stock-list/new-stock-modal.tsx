@@ -23,6 +23,8 @@ export function NewStockModal({ toggle }: Props) {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [unit, setUnit] = useState("");
+  const [price, setPrice] = useState("");
+  const [priceType, setPriceType] = useState<"UNIT" | "BULK" | null>(null);
 
   const queryClient = useQueryClient();
 
@@ -33,6 +35,10 @@ export function NewStockModal({ toggle }: Props) {
         name,
         quantity: Number(quantity),
         unit,
+        batchPriceKes:
+          priceType === "BULK"
+            ? Number(price)
+            : Number(price) * Number(quantity),
       }),
     onError: () => toast.error("Something went wrong"),
     onSuccess: (data) => {
@@ -112,6 +118,30 @@ export function NewStockModal({ toggle }: Props) {
               onChange={(e) => setUnit(e.target.value)}
               placeholder="E.g., Kg, Litres"
             />
+          </div>
+          <div>
+            <Label>Price</Label>
+            <Input
+              type="number"
+              required
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Enter price"
+            />
+          </div>
+          <div>
+            <Label>Price Type</Label>
+            <select
+              onChange={(e) => setPriceType(e.target.value as "UNIT" | "BULK")}
+              className="w-full border rounded p-2"
+              required
+            >
+              <option value="" disabled selected>
+                Select price type
+              </option>
+              <option value="UNIT">Per Unit</option>
+              <option value="BULK">For the selected quantity</option>
+            </select>
           </div>
           <div className="flex justify-end gap-2">
             <Button

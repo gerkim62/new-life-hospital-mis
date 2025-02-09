@@ -45,7 +45,7 @@ export default function MedicalInfoEdit({
     onSuccess: (data) => {
       if (data.success) {
         toast.success("Visit updated successfully");
-        queryClient.refetchQueries({ queryKey: ["visit", visitId] });
+        queryClient.refetchQueries({ queryKey: ["visits", visitId] });
       } else {
         toast.error(data.message);
       }
@@ -63,8 +63,8 @@ export default function MedicalInfoEdit({
     <Dialog>
       {isPending && <Loader message="Updating this visit..." />}
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Pencil className="h-4 w-4" />
+        <Button variant="outline" >
+          <Pencil className="h-4 w-4" /> Edit
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-3xl">

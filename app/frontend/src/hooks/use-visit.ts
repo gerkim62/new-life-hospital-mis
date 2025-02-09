@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 function useVisit(visitId: string) {
   return useQuery({
-    queryKey: ["visit", visitId],
+    queryKey: ["visits", visitId],
     queryFn: () => getVisit(visitId),
     enabled: !!visitId,
   });

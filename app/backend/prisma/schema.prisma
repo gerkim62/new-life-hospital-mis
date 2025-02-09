@@ -42,6 +42,9 @@ model PatientVisit {
   drugs               Drug[]
   // array of the expenses incurred during the visit  
   expenses            Expense[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Drug {
@@ -55,17 +58,21 @@ model Drug {
 
   stockMovement   StockMovement? @relation(fields: [stockMovementId], references: [id]) //for drugs that are dispensed from stock
   stockMovementId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Expense {
   id             String       @id @default(uuid())
   name           String
-  description    String
+  description    String?
   amount         Float
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
   patientVisit   PatientVisit @relation(fields: [patientVisitId], references: [id])
   patientVisitId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Lab {
@@ -80,6 +87,9 @@ model Lab {
   patientVisitId String
   labResultId    String?
   labResult      LabResult?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model LabResult {
@@ -88,6 +98,9 @@ model LabResult {
   comment String
   lab     Lab    @relation(fields: [labId], references: [id])
   labId   String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model StockItem {
@@ -98,12 +111,14 @@ model StockItem {
   unit        String //e.g Kg, Litres, etc
 
   movements StockMovement[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model StockMovement {
   id            String            @id @default(uuid())
   quantity      Int
-  createdAt     DateTime          @default(now())
   description   String?
   type          StockMovementType
   batchPriceKes Float
@@ -113,6 +128,9 @@ model StockMovement {
   PatientVisit   PatientVisit? @relation(fields: [patientVisitId], references: [id])
   patientVisitId String?
   Drug           Drug[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum StockMovementType {

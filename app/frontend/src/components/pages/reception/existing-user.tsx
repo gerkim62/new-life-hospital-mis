@@ -23,18 +23,33 @@ export default function ExistingUser() {
     if (data?.success) {
       setModal("symptoms");
     } else {
-      toast.error(data?.message ?? "Something went wrong");
+      toast.error(data?.message ?? "Something went wrong", {
+        toastId: "patient-error"+patientNumber,
+      });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isLoading]);
 
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      setSubmittedPatientNumber(Number(patientNumber));
-      if (data?.success) {
-        setModal("symptoms");
-      }
-    }} className="space-y-2">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+
+        // toast.dismiss("patient-error");
+        setSubmittedPatientNumber(Number(patientNumber));
+
+        if (data?.success) {
+          setModal("symptoms");
+        } else {
+          setTimeout(() => {
+            toast.error(data?.message ?? "Something went wrong", {
+              toastId: "patient-error" + patientNumber,
+            });
+          }, 0);
+        }
+      }}
+      className="space-y-2"
+    >
       {isLoading && <Loader message="Fetching patient details..." />}
       {data?.success && (
         <SymptomsModal
@@ -45,6 +60,7 @@ export default function ExistingUser() {
       )}
       <Label htmlFor="patientNumber">Patient Number</Label>
       <Input
+        disabled={isLoading}
         type="number"
         id="patientNumber"
         placeholder="Enter patient number"
@@ -52,11 +68,7 @@ export default function ExistingUser() {
         onChange={(e) => setPatientNumber(e.target.value)}
         required
       />
-      <Button
-        
-        type="submit"
-        className="w-full"
-      >
+      <Button disabled={isLoading} type="submit" className="w-full">
         Proceed
       </Button>
     </form>

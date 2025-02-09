@@ -9,6 +9,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Download, Plus } from "lucide-react";
+import { AddExpensesModal } from "./add-expenses-modal";
+import { useState } from "react";
 
 type Props = {
   expenses: Expense[];
@@ -19,12 +21,16 @@ type Expense = {
 };
 
 export default function Expenses({ expenses }: Props) {
+  const [addingExpense, setAddingExpense] = useState(false);
   return (
     <Card className="border border-gray-200 shadow-sm">
+      {addingExpense && (
+        <AddExpensesModal onClose={() => setAddingExpense(false)} />
+      )}
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-lg font-semibold">Expenses</CardTitle>
-        <Button variant="ghost" size="icon">
-          <Plus className="h-4 w-4" />
+        <Button onClick={() => setAddingExpense(true)} variant="outline">
+          <Plus className="h-4 w-4" /> Add Expenses
         </Button>
       </CardHeader>
       <CardContent>

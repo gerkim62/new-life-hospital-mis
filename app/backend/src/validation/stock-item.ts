@@ -7,6 +7,13 @@ const NewStockItemSchema = z.object({
   description: z.string(),
   quantity: z.coerce.number().positive(),
   unit: z.string().nonempty(),
+  batchPriceKes: z.coerce.number().positive(),
+});
+
+const UpdateStockItemSchema = z.object({
+  name: z.string().nonempty(),
+  description: z.string(),
+  unit: z.string().nonempty(),
 });
 
 const NewStockItemMovementSchema = z.object({
@@ -30,4 +37,11 @@ export type NewStockItemMovementOutput = z.output<
   typeof NewStockItemMovementSchema
 >;
 
-export { NewStockItemSchema, NewStockItemMovementSchema };
+export type UpdateStockItemInput = z.input<typeof UpdateStockItemSchema>;
+export type UpdateStockItemOutput = z.output<typeof UpdateStockItemSchema>;
+
+export {
+  NewStockItemSchema,
+  NewStockItemMovementSchema,
+  UpdateStockItemSchema,
+};

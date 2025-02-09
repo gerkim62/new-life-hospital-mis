@@ -3,12 +3,13 @@ import AddLabModal from "./add-lab-modal";
 import LabItem from "./lab-item";
 
 type Lab = {
-  status: string;
+  status: "DONE" | "IN_PROGRESS" | "PENDING";
   result: string | null;
   comment: string | null;
   name: string;
   description: string;
   fees: number;
+  id: string;
 };
 
 type Props = {
@@ -29,7 +30,7 @@ export default function Labs({ labs, patientId, patientName, visitId }: Props) {
 
   return (
     <Card className="border border-gray-200 shadow-sm">
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-row items-center justify-between border-b border-gray-200 mb-4">
         <CardTitle className="text-lg font-semibold">Labs</CardTitle>
         <AddLabModal
           patientId={patientId}

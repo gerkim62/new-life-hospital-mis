@@ -1,4 +1,4 @@
-import { StockMovement } from "@prisma/client";
+import { StockItem, StockMovement } from "@prisma/client";
 import { ApiResponse } from "../../../types/api/response";
 
 export type GetStockItemMovementsResponse = ApiResponse<
@@ -12,3 +12,5 @@ export type AddStockItemMovementResponse = ApiResponse<
   unknown,
   "movement"
 >;
+
+export type UpdateStockItemResponse = ApiResponse<StockItem, unknown, "item">;

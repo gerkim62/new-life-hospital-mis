@@ -1,12 +1,22 @@
 import { Response, Router } from "express";
 import { z } from "zod";
 import { getVisit, markAsLeft, updateVisit } from "./controller";
-import { GetVisitResponse, MarkAsLeftResponse, PutVisitResponse } from "./types";
+import {
+  GetVisitResponse,
+  MarkAsLeftResponse,
+  PutVisitResponse,
+} from "./types";
 import { UpdateVisitSchema } from "../../../validation/visit";
+import medicationRouter from "./medication";
+import expensesRouter from "./expenses";
 
 const singleVisitRouter = Router({
   mergeParams: true,
 });
+
+singleVisitRouter.use("/medication", medicationRouter);
+singleVisitRouter.use("/expenses", expensesRouter);
+
 singleVisitRouter.get("/", async (req, res: Response<GetVisitResponse>) => {
   const { visitId } = z
     .object({

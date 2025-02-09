@@ -2,8 +2,13 @@ import { Response, Router } from "express";
 import { CreateLabResponse, GetAllLabsResponse } from "./types";
 import { addLab, getALlLabs } from "./controllers";
 import { NewLabSchema } from "../../validation/lab";
+import singleLabRouter from "./lab";
 
-const labsRouter = Router();
+const labsRouter = Router({
+  mergeParams: true,
+});
+
+labsRouter.use("/:labId", singleLabRouter);
 
 labsRouter.post("/", async (req, res: Response<CreateLabResponse>) => {
   const data = NewLabSchema.parse(req.body);

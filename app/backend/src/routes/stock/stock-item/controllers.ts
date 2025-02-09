@@ -1,5 +1,8 @@
 import prisma from "../../../libs/prisma";
-import { NewStockItemMovementOutput } from "../../../validation/stock-item";
+import {
+  NewStockItemMovementOutput,
+  UpdateStockItemInput,
+} from "../../../validation/stock-item";
 
 async function addStockItemMovement(
   data: NewStockItemMovementOutput & { itemId: string }
@@ -60,4 +63,28 @@ async function getAllStockMovements({ itemId }: { itemId: string }) {
   return movements;
 }
 
-export { addStockItemMovement, getAllStockMovements };
+async function updateStockItem(
+  data: UpdateStockItemInput & { itemId: string }
+) {
+  return await prisma.stockItem
+    .update({
+      where: {
+        id: data.itemId,
+      },
+      data: {
+        name: data.name,
+        description: data.description,
+        unit: data.unit,
+      },
+    })
+    .catch((e) => {
+      console.error(e);
+      // if doesn't exist
+      if (e.code === "P2025") {
+        return null;
+      }
+      throw e;
+    });
+}
+
+export { addStockItemMovement, getAllStockMovements, updateStockItem };

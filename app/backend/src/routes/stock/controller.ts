@@ -6,11 +6,28 @@ function getAllStockItems() {
 }
 
 async function addNewStockItem(data: NewStockItemOutput) {
-  const item = await prisma.stockItem.create({
-    data,
-  });
+  return await prisma.$transaction(async (tx) => {
+    const item = await tx.stockItem.create({
+      data: {
+        name: data.name,
+        description: data.description,
+        quantity: data.quantity,
+        unit: data.unit,
+      },
+    });
 
-  return item;
+    await tx.stockMovement.create({
+      data: {
+        itemId: item.id,
+        quantity: item.quantity,
+        type: "IN",
+        batchPriceKes: data.batchPriceKes,
+        description: "Initial Stock",
+      },
+    });
+
+    return item;
+  });
 }
 
 export { getAllStockItems, addNewStockItem };

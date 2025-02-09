@@ -15,6 +15,8 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { NewStockModal } from "./new-stock-modal";
 import { MoveStockItemModal } from "./move-stock";
+import { Pencil } from "lucide-react";
+import EditStockItemModal from "./edit-stock-item";
 
 export function StockList() {
   const [modal, setModal] = useState<null | "new-stock">(null);
@@ -23,6 +25,8 @@ export function StockList() {
     queryKey: ["stockItems"],
     queryFn: getAllStockItems,
   });
+
+  const [editingItemId, setEditingItemId] = useState<string | null>(null);
 
   const stockItems = (data?.success ? data.items : []) || [];
 
@@ -44,6 +48,13 @@ export function StockList() {
         <MoveStockItemModal
           item={stockItems.find((item) => item.id === selectedItemId)!}
           toggle={() => setSelectedItemId(null)}
+        />
+      )}
+
+      {editingItemId && (
+        <EditStockItemModal
+          initialData={stockItems.find((item) => item.id === editingItemId)!}
+          onClose={() => setEditingItemId(null)}
         />
       )}
 
@@ -81,6 +92,12 @@ export function StockList() {
                     <TableCell>{item.quantity}</TableCell>
                     <TableCell>{item.unit}</TableCell>
                     <TableCell className="text-right flex gap-2 justify-end">
+                      <Button
+                        size="sm"
+                        onClick={() => setEditingItemId(item.id)}
+                      >
+                        <Pencil size={16} />
+                      </Button>
                       <Button
                         size="sm"
                         onClick={() => handleAdjustStock(item.id)}

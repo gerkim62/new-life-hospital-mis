@@ -1,7 +1,11 @@
+import { UpdateStockItemResponse } from "@app/backend/src/routes/stock/stock-item/types";
 import { AddNewStockItemResponse } from "@app/backend/src/routes/stock/types";
-import { NewStockItemInput } from "@app/backend/src/validation/stock-item";
+import {
+  NewStockItemInput,
+  UpdateStockItemInput,
+} from "@app/backend/src/validation/stock-item";
 
-async function addNewStockItem(data: NewStockItemInput ) {
+async function addNewStockItem(data: NewStockItemInput) {
   console.log("stock item detals", data);
   const res = await fetch("/api/v1/stock", {
     body: JSON.stringify(data),
@@ -16,6 +20,20 @@ async function addNewStockItem(data: NewStockItemInput ) {
   return json;
 }
 
+async function updateStockItem(
+  data: UpdateStockItemInput & { itemId: string }
+) {
+  const res = await fetch(`/api/v1/stock/${data.itemId}`, {
+    body: JSON.stringify(data),
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
+  const json: UpdateStockItemResponse = await res.json();
 
-export { addNewStockItem };
+  return json;
+}
+
+export { addNewStockItem, updateStockItem };

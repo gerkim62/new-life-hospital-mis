@@ -1,3 +1,4 @@
+import Loader from "@/components/small/loader";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,6 +46,7 @@ const MarkAsLeftModal = () => {
   }
   return (
     <AlertDialog>
+      {isLoading && <Loader message="Marking patient as left..." />}
       <AlertDialogTrigger asChild>
         <Button className="gap-2">
           <AlertCircle className="w-4 h-4" />
@@ -53,20 +55,20 @@ const MarkAsLeftModal = () => {
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-destructive flex items-center gap-2">
+          <AlertDialogTitle className="text-primary flex items-center gap-2">
             <AlertCircle className="w-5 h-5" />
-            Mark Patient as Left
+            Confirm Patient Departure
           </AlertDialogTitle>
           <AlertDialogDescription className="text-base">
-            This will indicate that the patient has already left the hospital.
-            You will no longer be able to:
+            This will indicate that the patient has left the hospital. After
+            marking, you won't be able to:
             <ul className="list-disc ml-6 mt-2 space-y-1">
               <li>Update lab results</li>
               <li>Add or modify expenses</li>
               <li>Update medications</li>
             </ul>
-            <div className="mt-4 font-medium text-destructive">
-              This action cannot be reversed.
+            <div className="mt-4 font-medium text-muted-foreground">
+              Please note that this change is permanent.
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -77,9 +79,9 @@ const MarkAsLeftModal = () => {
           <AlertDialogAction
             disabled={isLoading}
             onClick={onConfirm}
-            className="bg-destructive hover:bg-destructive/90 text-sm"
+            className="bg-primary hover:bg-primary/90 text-sm"
           >
-            I understand, confirm
+            Confirm
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

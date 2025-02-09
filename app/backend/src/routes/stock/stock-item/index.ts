@@ -2,9 +2,17 @@ import { Response, Router } from "express";
 import {
   AddStockItemMovementResponse,
   GetStockItemMovementsResponse,
+  UpdateStockItemResponse,
 } from "./types";
-import { NewStockItemMovementSchema } from "../../../validation/stock-item";
-import { addStockItemMovement, getAllStockMovements } from "./controllers";
+import {
+  NewStockItemMovementSchema,
+  UpdateStockItemSchema,
+} from "../../../validation/stock-item";
+import {
+  addStockItemMovement,
+  getAllStockMovements,
+  updateStockItem,
+} from "./controllers";
 import { z } from "zod";
 
 const stockItemRouter = Router({
@@ -57,6 +65,36 @@ stockItemRouter.post(
         success: true,
         message: "Stock item movement added successfully.",
         movement,
+      });
+  }
+);
+
+stockItemRouter.put(
+  "/",
+  async (req, res: Response<UpdateStockItemResponse>) => {
+    const data = UpdateStockItemSchema.parse(req.body);
+    const { stockItemId: itemId } = z
+      .object({
+        stockItemId: z.string(),
+      })
+      .parse(req.params);
+
+    const item = await updateStockItem({
+      ...data,
+      itemId,
+    });
+
+    if (!item) {
+      res.status(404).json({
+        success: false,
+        message: "The stock item you are trying to update does not exist.",
+        errors: [],
+      });
+    } else
+      res.json({
+        success: true,
+        message: "Stock item updated successfully.",
+        item,
       });
   }
 );

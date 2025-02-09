@@ -44,13 +44,15 @@ const AddLabModal = ({ patientName, patientId, visitId }: Props) => {
     onSuccess: (data) => {
       console.log("Lab added:", data);
       if (data.success) {
-        toast("Lab added successfully");
+        toast.success("Lab added successfully");
         setIsOpen(false);
 
         setFormData({ name: "", description: "", fees: "" });
 
-        queryClient.refetchQueries({ queryKey: ["visit", visitId] });
-
+        queryClient.refetchQueries({ queryKey: ["visits", visitId] });
+        queryClient.invalidateQueries({
+          queryKey: ["labs"],
+        });
       } else {
         toast.error(data.message);
       }
@@ -63,11 +65,10 @@ const AddLabModal = ({ patientName, patientId, visitId }: Props) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {isPending && <Loader message="Adding lab..." />}
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="flex items-center gap-1">
+        <Button size="sm" className="flex items-center gap-1">
           <Plus className="h-4 w-4" />
-          Add Lab
+          Add new Lab
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-lg">
@@ -77,6 +78,7 @@ const AddLabModal = ({ patientName, patientId, visitId }: Props) => {
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
+          {isPending && <Loader message="Adding lab..." />}
           <div className="grid lg:grid-cols-2 gap-4 mt-4">
             <div>
               <Label htmlFor="name" className="text-sm">
@@ -125,7 +127,6 @@ const AddLabModal = ({ patientName, patientId, visitId }: Props) => {
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
-                required
                 className="mt-1"
               />
             </div>

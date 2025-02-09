@@ -82,6 +82,7 @@ const VisitDetailsPage = () => {
           result: lab.result?.value ?? null,
           comment: lab.result?.comment ?? null,
           fees: lab.feesKes,
+          id: lab.id,
         }))}
         patientId={visit.patient.id}
         patientName={visit.patient.name}

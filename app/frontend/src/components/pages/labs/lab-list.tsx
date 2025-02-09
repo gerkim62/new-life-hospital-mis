@@ -36,6 +36,8 @@ const LabList = () => {
       lab.patientVisit.patientId.toString().includes(search)
   );
 
+  console.log(labs);
+
   return (
     <div className="p-8 max-w-6xl mx-auto">
       {isLoading && <Loader message="Loading labs..." />}
@@ -59,7 +61,7 @@ const LabList = () => {
                 <TableHead>Test Name</TableHead>
                 <TableHead>Description</TableHead>
                 <TableHead>Fees (KES)</TableHead>
-                <TableHead>Results</TableHead>
+                <TableHead>Status</TableHead>
                 <TableHead className="text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
@@ -67,7 +69,7 @@ const LabList = () => {
               {filteredLabs.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center">
-                    No labs found
+                    No labs to display.
                   </TableCell>
                 </TableRow>
               )}
@@ -81,8 +83,10 @@ const LabList = () => {
                   <TableCell>{lab.description}</TableCell>
                   <TableCell>{lab.feesKes.toLocaleString()}</TableCell>
                   <TableCell>
-                    <Badge variant={lab.labResultId ? "default" : "secondary"}>
-                      {lab.labResultId ? "Out" : "Pending"}
+                    <Badge
+                      variant={lab.status === "DONE" ? "default" : "secondary"}
+                    >
+                      {lab.status }
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
