@@ -46,7 +46,7 @@ export default function MedicalInfo({
           <div>
             <h3 className="font-medium text-gray-900">Diagnosis</h3>
             <p
-              className={`mt-1 ${diagnosis ? "text-gray-600" : "text-gray-400 italic"}`}
+              className={`mt-1 whitespace-pre-wrap ${diagnosis ? "text-gray-600" : "text-gray-400 italic"}`}
             >
               {diagnosis ?? "No diagnosis added"}
             </p>
@@ -55,7 +55,7 @@ export default function MedicalInfo({
         <div>
           <h3 className="font-medium text-gray-900">Treatment</h3>
           <p
-            className={`mt-1 ${treatment ? "text-gray-600" : "text-gray-400 italic"}`}
+            className={`mt-1 whitespace-pre-wrap ${treatment ? "text-gray-600" : "text-gray-400 italic"}`}
           >
             {treatment ?? "No treatment added"}
           </p>
@@ -64,7 +64,7 @@ export default function MedicalInfo({
           <div className="bg-gray-50 p-3 rounded-lg">
             <h3 className="font-medium text-gray-900">Notes</h3>
             <p
-              className={`mt-1 ${notes ? "text-gray-600" : "text-gray-400 italic"}`}
+              className={`mt-1 whitespace-pre-wrap ${notes ? "text-gray-600" : "text-gray-400 italic"}`}
             >
               {notes ?? "No notes added"}
             </p>

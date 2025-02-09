@@ -18,6 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import useCurrentDate from "@/hooks/use-current-date";
 
 export function PatientsVisitsList() {
   const [visits, setVisits] = useState<
@@ -44,6 +46,8 @@ export function PatientsVisitsList() {
 
   const [patientId, setPatientId] = useState<null | number>(null);
   const [showOnlyActiveVisits, setShowOnlyActiveVisits] = useState(false);
+  const [showTodayVisits, setShowTodayVisits] = useState(false);
+  const currentDate = useCurrentDate();
 
   const { isLoading, data } = useQuery({
     queryKey: ["visits", patientId],
@@ -78,10 +82,22 @@ export function PatientsVisitsList() {
     setPatientId(pid);
   }
 
-  const filteredVisits = showOnlyActiveVisits
-    ? visits.filter((visit) => visit.leaveTime === null)
-    : visits;
-
+  const filteredVisits = (
+    showOnlyActiveVisits
+      ? visits.filter((visit) => visit.leaveTime === null)
+      : visits
+  ).filter((visit) => {
+    if (showTodayVisits) {
+      const today = new Date(currentDate);
+      const arrivalTime = new Date(visit.arrivalTime);
+      return (
+        arrivalTime.getDate() === today.getDate() &&
+        arrivalTime.getMonth() === today.getMonth() &&
+        arrivalTime.getFullYear() === today.getFullYear()
+      );
+    }
+    return true;
+  });
   return (
     <div className="p-8 max-w-6xl mx-auto">
       {isLoading && (
@@ -92,24 +108,50 @@ export function PatientsVisitsList() {
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Patient Visits</CardTitle>
+
           <form onSubmit={handleSubmit} className="mt-4 flex gap-4">
             <Input
               type="text"
               placeholder="Enter Patient ID"
               value={candidatePatientId ?? ""}
               onChange={(e) => setCandidatePatientId(e.target.value)}
+              className="max-w-sm"
             />
             <Button type="submit">Search</Button>
           </form>
-          <div hidden={!visits.length} className="mt-4 flex items-center gap-2">
-            <Checkbox
-              id="active-visits"
-              checked={showOnlyActiveVisits}
-              onCheckedChange={(checked) => setShowOnlyActiveVisits(!!checked)}
-            />
-            <label htmlFor="active-visits" className="cursor-pointer">
-              Show only active visits (patients still in hospital)
-            </label>
+
+          <div hidden={!visits.length} className="mt-6 space-y-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="active-visits"
+                checked={showOnlyActiveVisits}
+                onCheckedChange={(checked) =>
+                  setShowOnlyActiveVisits(!!checked)
+                }
+                className="h-5 w-5"
+              />
+              <Label
+                htmlFor="active-visits"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Show only active visits (patients still in hospital)
+              </Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="today-visits"
+                checked={showTodayVisits}
+                onCheckedChange={(checked) => setShowTodayVisits(!!checked)}
+                className="h-5 w-5"
+              />
+              <Label
+                htmlFor="today-visits"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Show today's visits only
+              </Label>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -134,7 +176,9 @@ export function PatientsVisitsList() {
                       ? `No visits found for patient ID ${patientId}.`
                       : showOnlyActiveVisits
                         ? "No active visits found."
-                        : "No patient visits yet."}
+                        : showTodayVisits
+                          ? "No visits today."
+                          : "No visits found."}
                   </TableCell>
                 </TableRow>
               ) : (
