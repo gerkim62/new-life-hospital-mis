@@ -32,11 +32,7 @@ export default function Medication({ drugs }: Props) {
     <Card className="border border-gray-200 shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-lg font-semibold">Medications</CardTitle>
-        <Button
-          onClick={() => setSelectionModalOpen(true)}
-          variant="ghost"
-          size="icon"
-        >
+        <Button onClick={() => setSelectionModalOpen(true)} variant={"outline"}>
           <Plus className="h-4 w-4" /> Add Medication
         </Button>
         {/* {selectionModalOpen && (

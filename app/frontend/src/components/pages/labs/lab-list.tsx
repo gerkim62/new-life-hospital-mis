@@ -81,7 +81,9 @@ const LabList = () => {
                   </TableCell>
                   <TableCell>{lab.patientVisit.patient.name}</TableCell>
                   <TableCell>{lab.name}</TableCell>
-                  <TableCell>{lab.description}</TableCell>
+                  <TableCell
+                  className="truncate max-w-[200px]"
+                  >{lab.description}</TableCell>
                   <TableCell>{formatCurrency(lab.feesKes)}</TableCell>
                   <TableCell>
                     <Badge
