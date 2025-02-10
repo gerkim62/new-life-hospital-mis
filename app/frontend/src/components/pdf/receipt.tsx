@@ -190,9 +190,7 @@ const ReceiptPdf = ({
 
         {/* Footer */}
         <View style={styles.footer}>
-          <Text>
-            Thank you for choosing {receiptData.hospital.name}. Get well soon!
-          </Text>
+          <Text>Thank you for choosing {receiptData.hospital.name}.</Text>
         </View>
       </Page>
     </Document>
