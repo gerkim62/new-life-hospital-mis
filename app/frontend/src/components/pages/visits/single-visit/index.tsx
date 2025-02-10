@@ -72,8 +72,32 @@ const VisitDetailsPage = () => {
         notes={visit.notes}
         symptoms={visit.symptoms}
         treatment={visit.treatment}
-        patientId={visit.patient.id}
-        patientName={visit.patient.name}
+        labs={
+          visit.labs.map((lab) => ({
+            name: lab.name,
+            price: lab.feesKes,
+            description: lab.description,
+            comment: lab.result?.comment ?? null,
+            result: lab.result?.value ?? null,
+          })) ?? []
+        }
+        medications={
+          visit.drugs
+            .filter((drug) => drug.fromStock)
+            .map((drug) => ({
+              name: drug.name,
+              price: drug.price,
+              description: drug.description,
+              dosage: drug.dosage,
+              fromStock: drug.fromStock,
+            })) ?? []
+        }
+        patient={{
+          name: visit.patient.name,
+          arrivalTime: visit.arrivalTime,
+          id: visit.patient.id,
+          printedTime: new Date(currentDate),
+        }}
       />
 
       {/* Medications */}

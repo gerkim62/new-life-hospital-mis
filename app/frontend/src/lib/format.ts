@@ -8,7 +8,17 @@ const dateTimeFormatter = new Intl.DateTimeFormat("en-KE", {
   hour12: true, // 12-hour format
   timeZone: "Africa/Nairobi",
 });
-const shortDateFormatter = new Intl.DateTimeFormat("en-KE", {
+
+const timeFormatter = new Intl.DateTimeFormat("en-KE", {
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+  timeZone: "Africa/Nairobi",
+});
+
+
+
+const dateFormatter = new Intl.DateTimeFormat("en-KE", {
   year: "numeric",
   month: "short",
   day: "numeric",
@@ -32,7 +42,13 @@ function formatDateTime(date: Date): string {
 function formatTime(date: Date) {
   date = new Date(date);
 
-  return shortDateFormatter.format(date);
+  return timeFormatter.format(date);
 }
 
-export { formatDateTime, formatTime, formatCurrency };
+function formatDate(date: Date) {
+  date = new Date(date);
+
+  return dateFormatter.format(date);
+}
+
+export { formatDateTime, formatTime, formatCurrency, formatDate };
