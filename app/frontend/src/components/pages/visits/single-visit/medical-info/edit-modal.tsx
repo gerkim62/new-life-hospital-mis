@@ -63,7 +63,7 @@ export default function MedicalInfoEdit({
     <Dialog>
       {isPending && <Loader message="Updating this visit..." />}
       <DialogTrigger asChild>
-        <Button variant="outline" >
+        <Button variant="outline">
           <Pencil className="h-4 w-4" /> Edit
         </Button>
       </DialogTrigger>
@@ -94,8 +94,8 @@ export default function MedicalInfoEdit({
                 Diagnosis
               </Label>
               <Textarea
-              required
-              minLength={1}
+                required
+                minLength={1}
                 id="diagnosis"
                 defaultValue={diagnosis || ""}
                 className="mt-1"
@@ -114,8 +114,8 @@ export default function MedicalInfoEdit({
                 Treatment
               </Label>
               <Textarea
-              required
-              minLength={1}
+                required
+                minLength={1}
                 id="treatment"
                 defaultValue={treatment || ""}
                 className="mt-1"
@@ -129,10 +129,9 @@ export default function MedicalInfoEdit({
 
             <div>
               <Label htmlFor="notes" className="text-xs font-medium">
-                Notes
+                Clinical Notes & Follow-up
               </Label>
               <Textarea
-              
                 id="notes"
                 defaultValue={notes || ""}
                 className="mt-1"

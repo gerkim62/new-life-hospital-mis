@@ -103,7 +103,9 @@ export default function MedicalInfo(props: Props) {
         </div>
         {props.notes && (
           <div className="bg-gray-50 p-3 rounded-lg">
-            <h3 className="font-medium text-gray-900">Notes</h3>
+            <h3 className="font-medium text-gray-900 capitalize">
+              Clinical Notes & Follow-up
+            </h3>
             <p
               className={`mt-1 whitespace-pre-wrap ${
                 props.notes ? "text-gray-600" : "text-gray-400 italic"

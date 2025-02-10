@@ -29,7 +29,7 @@ const MarkAsLeftModal = () => {
       if (data.success) {
         toast.success("Patient marked as left successfully");
         queryClient.invalidateQueries({
-          queryKey: ["visit", visitId],
+          queryKey: ["visits", visitId],
         });
       } else {
         toast.error(data.message);

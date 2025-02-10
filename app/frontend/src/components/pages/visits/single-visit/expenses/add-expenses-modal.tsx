@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { formatCurrency } from "@/lib/format";
 import { addExpenses } from "@/mutations/expenses";
 import { Route } from "@/routes/visits/$visitId";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -181,7 +182,7 @@ export function AddExpensesModal({ onClose }: Props) {
                       <div className="flex justify-between items-center">
                         <span className="font-medium">{exp.name}</span>
                         <span className="text-sm text-gray-600">
-                          ${exp.amount.toFixed(2)}
+                          {formatCurrency(exp.amount)}
                         </span>
                       </div>
                       {exp.description && (

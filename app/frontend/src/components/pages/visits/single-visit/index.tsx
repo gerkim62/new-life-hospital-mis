@@ -38,10 +38,6 @@ const VisitDetailsPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <p className="text-red-500">
-        Work in progress. Some things will not work as expected in this page for
-        now.
-      </p>
       {/* Patient Information & Visit Time */}
       <PatientInfo
         name={visit.patient.name}
