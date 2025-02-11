@@ -187,9 +187,9 @@ const styles = {
 
 const MedicalReportPdf = ({
   hospital = {
-    name: "New Life Medical Center",
+    name: "NewLife Medical Center",
     address: "Baraton",
-    phone: "+2547 xxx xxx",
+    phone: "+254-769-994-005",
   },
   patient,
   labs,
