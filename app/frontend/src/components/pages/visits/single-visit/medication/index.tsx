@@ -39,6 +39,8 @@ export default function Medication({ drugs }: Props) {
             <TableRow className="bg-gray-50">
               <TableHead>Name</TableHead>
               <TableHead>Quantity</TableHead>
+              <TableHead>Dosage</TableHead>
+              <TableHead>Description</TableHead>
               <TableHead>Source</TableHead>
               <TableHead className="text-right">Price</TableHead>
             </TableRow>
@@ -52,6 +54,8 @@ export default function Medication({ drugs }: Props) {
                     ? drug.quantity + " (" + drug.unit + ")"
                     : "-"}
                 </TableCell>
+                <TableCell>{drug.dosage}</TableCell>
+                <TableCell>{drug.description}</TableCell>
                 <TableCell>
                   {drug.fromStock ? (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -64,9 +68,7 @@ export default function Medication({ drugs }: Props) {
                   )}
                 </TableCell>
                 <TableCell className="text-right">
-                  {drug.fromStock && drug.price
-                    ? `${formatCurrency(drug.price)}`
-                    : "-"}
+                  {drug.fromStock ? `${formatCurrency(drug.price)}` : "-"}
                 </TableCell>
               </TableRow>
             ))}

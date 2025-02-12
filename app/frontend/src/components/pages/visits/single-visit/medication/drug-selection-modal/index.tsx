@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatCurrency } from "@/lib/format";
 import { addMedications } from "@/mutations/medications";
 import { Route } from "@/routes/visits/$visitId.lazy";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import HospitalStock from "./HospitalStock";
@@ -25,6 +25,8 @@ function DrugSelectorModal({ onClose }: Props) {
   const [selectedDrugs, setSelectedDrugs] = useState<Drug[]>([]);
 
   const visitId = Route.useParams().visitId;
+
+  const queryClient = useQueryClient();
 
   const manualDrugs = selectedDrugs.filter((drug) => !("stockItemId" in drug));
   const fromStockDrugs = selectedDrugs.filter((drug) => "stockItemId" in drug);
@@ -49,6 +51,12 @@ function DrugSelectorModal({ onClose }: Props) {
         setSelectedDrugs([]);
         toast.success("Saved medication successfully");
         onClose();
+        queryClient.invalidateQueries({
+          queryKey: ["visits"],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["stock"],
+        });
       } else {
         toast.error(data.message);
       }
