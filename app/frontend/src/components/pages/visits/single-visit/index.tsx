@@ -4,7 +4,7 @@ import Labs from "./labs";
 import MedicalInfo from "./medical-info";
 import Medication from "./medication";
 import PatientInfo from "./patient-info";
-import { Route } from "@/routes/visits/$visitId";
+import { Route } from "@/routes/visits/$visitId.lazy";
 import Loader from "@/components/small/loader";
 import { formatDateTime } from "@/lib/format";
 import useCurrentDate from "@/hooks/use-current-date";
@@ -94,6 +94,7 @@ const VisitDetailsPage = () => {
           arrivalTime: visit.arrivalTime,
           id: visit.patient.id,
           printedTime: new Date(currentDate),
+          admissionBed: visit.admissionBed,
         }}
       />
 

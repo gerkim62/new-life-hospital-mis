@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { markVisitAsLeft } from "@/mutations/visit";
-import { Route } from "@/routes/visits/$visitId";
+import { Route } from "@/routes/visits/$visitId.lazy";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle } from "lucide-react";
 import { toast } from "react-toastify";

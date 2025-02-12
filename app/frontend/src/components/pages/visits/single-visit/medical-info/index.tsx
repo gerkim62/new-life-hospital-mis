@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MedicalInfoEdit from "./edit-modal";
-import { Route } from "@/routes/visits/$visitId";
+import { Route } from "@/routes/visits/$visitId.lazy";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MedicalReportPdf, {

@@ -19,13 +19,13 @@ import { Route as VisitsIndexImport } from './routes/visits/index'
 import { Route as StockIndexImport } from './routes/stock/index'
 import { Route as PatientsIndexImport } from './routes/patients/index'
 import { Route as LabsIndexImport } from './routes/labs/index'
-import { Route as VisitsVisitIdImport } from './routes/visits/$visitId'
 import { Route as StockItemIdImport } from './routes/stock/$itemId'
 import { Route as PatientsPatientIdImport } from './routes/patients/$patientId'
 
 // Create Virtual Routes
 
 const AboutLazyImport = createFileRoute('/about')()
+const VisitsVisitIdLazyImport = createFileRoute('/visits/$visitId')()
 
 // Create/Update Routes
 
@@ -71,11 +71,13 @@ const LabsIndexRoute = LabsIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const VisitsVisitIdRoute = VisitsVisitIdImport.update({
+const VisitsVisitIdLazyRoute = VisitsVisitIdLazyImport.update({
   id: '/visits/$visitId',
   path: '/visits/$visitId',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/visits/$visitId.lazy').then((d) => d.Route),
+)
 
 const StockItemIdRoute = StockItemIdImport.update({
   id: '/stock/$itemId',
@@ -132,7 +134,7 @@ declare module '@tanstack/react-router' {
       id: '/visits/$visitId'
       path: '/visits/$visitId'
       fullPath: '/visits/$visitId'
-      preLoaderRoute: typeof VisitsVisitIdImport
+      preLoaderRoute: typeof VisitsVisitIdLazyImport
       parentRoute: typeof rootRoute
     }
     '/labs/': {
@@ -174,7 +176,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutLazyRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/stock/$itemId': typeof StockItemIdRoute
-  '/visits/$visitId': typeof VisitsVisitIdRoute
+  '/visits/$visitId': typeof VisitsVisitIdLazyRoute
   '/labs': typeof LabsIndexRoute
   '/patients': typeof PatientsIndexRoute
   '/stock': typeof StockIndexRoute
@@ -187,7 +189,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutLazyRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/stock/$itemId': typeof StockItemIdRoute
-  '/visits/$visitId': typeof VisitsVisitIdRoute
+  '/visits/$visitId': typeof VisitsVisitIdLazyRoute
   '/labs': typeof LabsIndexRoute
   '/patients': typeof PatientsIndexRoute
   '/stock': typeof StockIndexRoute
@@ -201,7 +203,7 @@ export interface FileRoutesById {
   '/about': typeof AboutLazyRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/stock/$itemId': typeof StockItemIdRoute
-  '/visits/$visitId': typeof VisitsVisitIdRoute
+  '/visits/$visitId': typeof VisitsVisitIdLazyRoute
   '/labs/': typeof LabsIndexRoute
   '/patients/': typeof PatientsIndexRoute
   '/stock/': typeof StockIndexRoute
@@ -254,7 +256,7 @@ export interface RootRouteChildren {
   AboutLazyRoute: typeof AboutLazyRoute
   PatientsPatientIdRoute: typeof PatientsPatientIdRoute
   StockItemIdRoute: typeof StockItemIdRoute
-  VisitsVisitIdRoute: typeof VisitsVisitIdRoute
+  VisitsVisitIdLazyRoute: typeof VisitsVisitIdLazyRoute
   LabsIndexRoute: typeof LabsIndexRoute
   PatientsIndexRoute: typeof PatientsIndexRoute
   StockIndexRoute: typeof StockIndexRoute
@@ -267,7 +269,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutLazyRoute: AboutLazyRoute,
   PatientsPatientIdRoute: PatientsPatientIdRoute,
   StockItemIdRoute: StockItemIdRoute,
-  VisitsVisitIdRoute: VisitsVisitIdRoute,
+  VisitsVisitIdLazyRoute: VisitsVisitIdLazyRoute,
   LabsIndexRoute: LabsIndexRoute,
   PatientsIndexRoute: PatientsIndexRoute,
   StockIndexRoute: StockIndexRoute,
@@ -312,7 +314,7 @@ export const routeTree = rootRoute
       "filePath": "stock/$itemId.tsx"
     },
     "/visits/$visitId": {
-      "filePath": "visits/$visitId.tsx"
+      "filePath": "visits/$visitId.lazy.tsx"
     },
     "/labs/": {
       "filePath": "labs/index.tsx"

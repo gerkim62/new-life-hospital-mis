@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { formatCurrency } from "@/lib/format";
 import { addExpenses } from "@/mutations/expenses";
-import { Route } from "@/routes/visits/$visitId";
+import { Route } from "@/routes/visits/$visitId.lazy";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";

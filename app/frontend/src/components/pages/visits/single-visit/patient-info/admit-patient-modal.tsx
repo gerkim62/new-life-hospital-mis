@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateVisit } from "@/mutations/visit";
-import { Route } from "@/routes/visits/$visitId";
+import { Route } from "@/routes/visits/$visitId.lazy";
 import { toast } from "react-toastify";
 import Loader from "@/components/small/loader";
 

@@ -12,6 +12,7 @@ export type MedicalReportProps = {
     id: number;
     arrivalTime: Date;
     printedTime: Date;
+    admissionBed: string | null;
   };
   labs: {
     name: string;
@@ -182,7 +183,7 @@ const styles = {
     borderRadius: 4,
     padding: 8,
     marginBottom: 8,
-  }
+  },
 } as const;
 
 const MedicalReportPdf = ({
@@ -215,8 +216,11 @@ const MedicalReportPdf = ({
         <View style={styles.referenceSection}>
           <View>
             <Text>
-              <Text style={styles.bold}>Report No: </Text>
-              MR-{patient.id.toString().padStart(6, "0")}
+              <Text style={styles.bold}>
+                {patient.admissionBed ? "Bed No." : "Outpatient:"}{" "}
+              </Text>
+
+              {patient.admissionBed ? patient.admissionBed : "Yes"}
             </Text>
             <Text>
               <Text style={styles.bold}>Patient ID: </Text>
@@ -270,54 +274,54 @@ const MedicalReportPdf = ({
           <View style={styles.clinicalSection}>
             <View style={{ marginBottom: 12 }}>
               <Text style={styles.bold}>Symptoms:</Text>
-              <Text style={{ marginLeft: 8 }}>{symptoms}</Text>
+              <Text style={{ marginLeft: 8 }}>{symptoms ?? "N/A"}</Text>
             </View>
             <View style={{ marginBottom: 12 }}>
               <Text style={styles.bold}>Clinical Diagnosis:</Text>
-              <Text style={{ marginLeft: 8 }}>{diagnosis}</Text>
+              <Text style={{ marginLeft: 8 }}>{diagnosis ?? "N/A"}</Text>
             </View>
             <View style={{ marginBottom: 12 }}>
               <Text style={styles.bold}>Treatment:</Text>
-              <Text style={{ marginLeft: 8 }}>{treatment}</Text>
+              <Text style={{ marginLeft: 8 }}>{treatment ?? "N/A"}</Text>
             </View>
           </View>
         </View>
-
-        <View>
-          <Text style={styles.sectionHeader}>Laboratory Findings</Text>
-          <View style={styles.labsContainer}>
-            <View style={styles.table}>
-              <View style={styles.tableHeader}>
-                <View style={[styles.tableCell, styles.tableCellHeader]}>
-                  <Text>Investigation</Text>
+        {labs.length && (
+          <View>
+            <Text style={styles.sectionHeader}>Laboratory Findings</Text>
+            <View style={styles.labsContainer}>
+              <View style={styles.table}>
+                <View style={styles.tableHeader}>
+                  <View style={[styles.tableCell, styles.tableCellHeader]}>
+                    <Text>Investigation</Text>
+                  </View>
+                  <View style={[styles.tableCell, styles.tableCellHeader]}>
+                    <Text>Results</Text>
+                  </View>
+                  <View style={[styles.tableCell, styles.tableCellHeader]}>
+                    <Text>Comment</Text>
+                  </View>
                 </View>
-                <View style={[styles.tableCell, styles.tableCellHeader]}>
-                  <Text>Results</Text>
-                </View>
-                <View style={[styles.tableCell, styles.tableCellHeader]}>
-                  <Text>Comment</Text>
-                </View>
+                {labs.map((lab, index) => (
+                  <View key={index} style={styles.tableRow}>
+                    <View style={styles.tableCell}>
+                      <Text style={styles.bold}>{lab.name}</Text>
+                      <Text style={[styles.smallText, styles.grayText]}>
+                        {lab.description}
+                      </Text>
+                    </View>
+                    <View style={[styles.tableCell, { fontFamily: "Courier" }]}>
+                      <Text>{lab.result}</Text>
+                    </View>
+                    <View style={styles.tableCell}>
+                      <Text>{lab.comment}</Text>
+                    </View>
+                  </View>
+                ))}
               </View>
-              {labs.map((lab, index) => (
-                <View key={index} style={styles.tableRow}>
-                  <View style={styles.tableCell}>
-                    <Text style={styles.bold}>{lab.name}</Text>
-                    <Text style={[styles.smallText, styles.grayText]}>
-                      {lab.description}
-                    </Text>
-                  </View>
-                  <View style={[styles.tableCell, { fontFamily: "Courier" }]}>
-                    <Text>{lab.result}</Text>
-                  </View>
-                  <View style={styles.tableCell}>
-                    <Text>{lab.comment}</Text>
-                  </View>
-                </View>
-              ))}
             </View>
           </View>
-        </View>
-
+        )}
         {medications.length > 0 && (
           <View style={{ marginTop: 16 }}>
             <Text style={styles.sectionHeader}>Medications</Text>

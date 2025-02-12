@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { addLabResult } from "@/mutations/labs/lab";
-import { Route } from "@/routes/visits/$visitId";
+import { Route } from "@/routes/visits/$visitId.lazy";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PencilIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
