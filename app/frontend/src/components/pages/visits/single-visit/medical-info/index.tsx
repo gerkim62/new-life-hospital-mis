@@ -12,14 +12,6 @@ import { toast } from "react-toastify";
 import { printPDF } from "@/lib/print";
 
 type Props = MedicalReportProps;
-// {
-//   symptoms: string;
-//   diagnosis: string | null;
-//   treatment: string | null;
-//   notes: string | null;
-//   patientId: number;
-//   patientName: string;
-// };
 
 export default function MedicalInfo(props: Props) {
   const visitId = Route.useParams().visitId;

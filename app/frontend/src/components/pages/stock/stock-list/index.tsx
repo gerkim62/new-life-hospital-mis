@@ -12,18 +12,18 @@ import {
 import { getAllStockItems } from "@/queries/stock";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { NewStockModal } from "./new-stock-modal";
-import { MoveStockItemModal } from "./move-stock";
 import { Pencil } from "lucide-react";
+import { useState } from "react";
 import EditStockItemModal from "./edit-stock-item";
+import { MoveStockItemModal } from "./move-stock";
+import { NewStockModal } from "./new-stock-modal";
 
 export function StockList() {
   const [modal, setModal] = useState<null | "new-stock">(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const { data, isLoading } = useQuery({
     queryKey: ["stockItems"],
-    queryFn: getAllStockItems,
+    queryFn: () => getAllStockItems(undefined),
   });
 
   const [editingItemId, setEditingItemId] = useState<string | null>(null);

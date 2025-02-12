@@ -1,8 +1,13 @@
 import prisma from "../../libs/prisma";
 import { NewStockItemOutput } from "../../validation/stock-item";
 
-function getAllStockItems() {
-  return prisma.stockItem.findMany();
+function getAllStockItems(name: string | undefined) {
+  return prisma.stockItem.findMany({
+    where: {
+      ...(name && { name: { contains: name } }),
+    },
+    ...(name ? { take: 5 } : {}), // Conditionally include `take`
+  });
 }
 
 async function addNewStockItem(data: NewStockItemOutput) {

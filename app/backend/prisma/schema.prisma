@@ -50,19 +50,36 @@ model PatientVisit {
 }
 
 model Drug {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
-  description String
+  description String?
   dosage      String
 
   patientVisit   PatientVisit @relation(fields: [patientVisitId], references: [id])
   patientVisitId String
 
-  stockMovement   StockMovement? @relation(fields: [stockMovementId], references: [id]) //for drugs that are dispensed from stock
-  stockMovementId String?
+  stockMovement   StockMovement? @relation(fields: [stockMovementId], references: [id])
+  stockMovementId String?        @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model StockMovement {
+  id            String            @id @default(uuid())
+  quantity      Int
+  description   String?
+  type          StockMovementType
+  batchPriceKes Float
+
+  item           StockItem     @relation(fields: [itemId], references: [id])
+  itemId         String
+  patientVisit   PatientVisit? @relation(fields: [patientVisitId], references: [id])
+  patientVisitId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  drug      Drug?
 }
 
 model Expense {
@@ -113,23 +130,6 @@ model StockItem {
   unit        String //e.g Kg, Litres, etc
 
   movements StockMovement[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model StockMovement {
-  id            String            @id @default(uuid())
-  quantity      Int
-  description   String?
-  type          StockMovementType
-  batchPriceKes Float
-
-  item           StockItem     @relation(fields: [itemId], references: [id])
-  itemId         String
-  PatientVisit   PatientVisit? @relation(fields: [patientVisitId], references: [id])
-  patientVisitId String?
-  Drug           Drug[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

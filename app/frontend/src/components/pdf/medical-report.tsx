@@ -200,6 +200,7 @@ const MedicalReportPdf = ({
   treatment,
   notes,
 }: MedicalReportProps) => {
+  console.log(medications, medications.length);
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -368,9 +369,7 @@ const MedicalReportPdf = ({
                               : styles.statusTextExternal
                           }
                         >
-                          {med.fromStock
-                            ? "Dispensed"
-                            : "External Purchase Required"}
+                          {med.fromStock ? "Dispensed" : "To be bought"}
                         </Text>
                       </View>
                     </View>

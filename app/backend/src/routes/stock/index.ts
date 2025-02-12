@@ -3,13 +3,23 @@ import { AddNewStockItemResponse, GetAllStockItemsResponse } from "./types";
 import { addNewStockItem, getAllStockItems } from "./controller";
 import { NewStockItemSchema } from "../../validation/stock-item";
 import stockItemRouter from "./stock-item";
+import { z } from "zod";
 
 const stockRouter = Router();
 
 stockRouter.use("/:stockItemId", stockItemRouter);
 
-stockRouter.get("/", async (_, res: Response<GetAllStockItemsResponse>) => {
-  const items = await getAllStockItems();
+stockRouter.get("/", async (req, res: Response<GetAllStockItemsResponse>) => {
+  // get name from request query
+  const { name } = z
+    .object({
+      name: z.string().optional(),
+    })
+    .parse(req.query);
+
+  console.log("Search for stock items with name: ", name);
+
+  const items = await getAllStockItems(name);
 
   res.json({
     success: true,

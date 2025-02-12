@@ -79,15 +79,13 @@ const VisitDetailsPage = () => {
           })) ?? []
         }
         medications={
-          visit.drugs
-            .filter((drug) => drug.fromStock)
-            .map((drug) => ({
-              name: drug.name,
-              price: drug.price,
-              description: drug.description,
-              dosage: drug.dosage,
-              fromStock: drug.fromStock,
-            })) ?? []
+          visit.drugs.map((drug) => ({
+            name: drug.name,
+            price: drug.price,
+            description: drug.description,
+            dosage: drug.dosage,
+            fromStock: drug.fromStock,
+          })) ?? []
         }
         patient={{
           name: visit.patient.name,
@@ -121,7 +119,7 @@ const VisitDetailsPage = () => {
             .map((drug) => ({
               name: drug.name,
               price: drug.price,
-              description: drug.description,
+              description: drug.description ?? undefined,
             })) ?? []
         }
         otherExpenses={

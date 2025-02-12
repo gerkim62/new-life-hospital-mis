@@ -10,24 +10,18 @@ import {
 } from "@/components/ui/table";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import DrugSelectionModal from "./drug-selection-modal";
+import { ComprehensiveDrug } from "@app/backend/src/routes/visits/visit/types";
+import { formatCurrency } from "@/lib/format";
 
 type Props = {
   drugs: Drug[];
 };
 
-type Drug = {
-  name: string;
-  quantity?: number;
-  fromStock: boolean;
-  price?: number | null;
-};
+type Drug = ComprehensiveDrug;
 
 export default function Medication({ drugs }: Props) {
-  const [
-    ,
-    // selectionModalOpen
-    setSelectionModalOpen,
-  ] = useState(false);
+  const [selectionModalOpen, setSelectionModalOpen] = useState(false);
   return (
     <Card className="border border-gray-200 shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -35,11 +29,9 @@ export default function Medication({ drugs }: Props) {
         <Button onClick={() => setSelectionModalOpen(true)} variant={"outline"}>
           <Plus className="h-4 w-4" /> Add Medication
         </Button>
-        {/* {selectionModalOpen && (
-          // <MedicationSelectionStockModal
-          //   onClose={() => setSelectionModalOpen(false)}
-          // />
-        )} */}
+        {selectionModalOpen && (
+          <DrugSelectionModal onClose={() => setSelectionModalOpen(false)} />
+        )}
       </CardHeader>
       <CardContent>
         <Table>
@@ -55,7 +47,11 @@ export default function Medication({ drugs }: Props) {
             {drugs.map((drug, index) => (
               <TableRow key={index}>
                 <TableCell className="font-medium">{drug.name}</TableCell>
-                <TableCell>{drug.quantity}</TableCell>
+                <TableCell>
+                  {drug.fromStock
+                    ? drug.quantity + " (" + drug.unit + ")"
+                    : "-"}
+                </TableCell>
                 <TableCell>
                   {drug.fromStock ? (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -63,12 +59,14 @@ export default function Medication({ drugs }: Props) {
                     </span>
                   ) : (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                      Prescribed
+                      To be bought
                     </span>
                   )}
                 </TableCell>
                 <TableCell className="text-right">
-                  {drug.fromStock && drug.price ? `$${drug.price}` : "-"}
+                  {drug.fromStock && drug.price
+                    ? `${formatCurrency(drug.price)}`
+                    : "-"}
                 </TableCell>
               </TableRow>
             ))}

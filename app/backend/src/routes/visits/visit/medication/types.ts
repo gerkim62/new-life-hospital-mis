@@ -1,8 +1,7 @@
-import { Drug } from "@prisma/client";
 import { ApiResponse } from "../../../../types/api/response";
 
-export type AddMedicationRouteResponse = ApiResponse<
-  Drug,
+export type AddMedicationsRouteResponse = ApiResponse<
+  boolean,
   unknown,
-  "medication"
+  "success"
 >;
