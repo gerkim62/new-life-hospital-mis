@@ -13,21 +13,32 @@ export type NewVisitInput = z.input<typeof NewVisitSchema>;
 export type NewVisitOutput = z.output<typeof NewVisitSchema>;
 
 const UpdateVisitSchema = z.object({
-  symptoms: z.string().nonempty({
-    message: "Symptoms are required",
-  }),
-  diagnosis: z.string({
-    message: "Diagnosis is required",
-  }),
-  treatment: z.string({
-    message: "Treatment is required",
-  }),
-  notes: z.string({
-    message: "Notes is required",
-  }),
-  visitId: z.string({
-    message: "No visit was specified",
-  }),
+  symptoms: z
+    .string()
+    .nonempty({
+      message: "Symptoms are required",
+    })
+    .optional(),
+  diagnosis: z
+    .string({
+      message: "Diagnosis is required",
+    })
+    .optional(),
+  treatment: z
+    .string({
+      message: "Treatment is required",
+    })
+    .optional(),
+  notes: z
+    .string({
+      message: "Notes is required",
+    })
+    .optional(),
+  visitId: z
+    .string({
+      message: "No visit was specified",
+    }),
+  admissionBed: z.string().or(z.undefined()),
 });
 
 const GetVisitsSchema = z.object({

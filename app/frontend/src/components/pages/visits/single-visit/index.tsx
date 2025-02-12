@@ -44,6 +44,7 @@ const VisitDetailsPage = () => {
         id={visit.patient.id}
         arrivalTime={formatDateTime(visit.arrivalTime)}
         leaveTime={visit.leaveTime && formatDateTime(visit.leaveTime)}
+        bedNumber={visit.admissionBed}
       />
 
       {/* Lab Results */}

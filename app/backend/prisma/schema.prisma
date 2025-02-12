@@ -25,6 +25,8 @@ model PatientVisit {
 
   labs Lab[]
 
+  admissionBed String?
+
   patient   Patient @relation(fields: [patientId], references: [id])
   patientId Int
 

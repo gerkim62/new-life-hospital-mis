@@ -17,87 +17,53 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import useCurrentDate from "@/hooks/use-current-date";
+import { VisitWithPatient } from "@app/backend/src/routes/visits/types";
 
 export function PatientsVisitsList() {
-  const [visits, setVisits] = useState<
-    {
-      patientId: number;
-      id: string;
-      arrivalTime: Date;
-      leaveTime: Date | null;
-      symptoms: string;
-      diagnosis: string | null;
-      treatment: string | null;
-      notes: string | null;
-      patient: {
-        id: number;
-        name: string;
-        birthDate: Date;
-        phone: string;
-        address: string;
-        createdAt: Date;
-        updatedAt: Date;
-      };
-    }[]
-  >([]);
-
+  const [visits, setVisits] = useState<VisitWithPatient[]>([]);
   const [patientId, setPatientId] = useState<null | number>(null);
-  const [showOnlyActiveVisits, setShowOnlyActiveVisits] = useState(false);
-  const [showTodayVisits, setShowTodayVisits] = useState(false);
-  const currentDate = useCurrentDate();
+  const [filter, setFilter] = useState("all"); // all, active, today, inpatient, outpatient
 
+  const currentDate = useCurrentDate();
   const { isLoading, data } = useQuery({
     queryKey: ["visits", patientId],
     queryFn: () =>
-      getVisits({
-        patientId: patientId ?? undefined,
-      }).catch((error) => {
-        console.error(error);
-      }),
+      getVisits({ patientId: patientId ?? undefined }).catch(console.error),
   });
 
   useEffect(() => {
-    if (data?.success) {
-      setVisits(data.visits);
-    }
+    if (data?.success) setVisits(data.visits);
   }, [data]);
 
   const [candidatePatientId, setCandidatePatientId] = useState<string | null>(
     null
   );
-
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (candidatePatientId?.trim() === "") {
-      setPatientId(null);
-    }
+    if (candidatePatientId?.trim() === "") setPatientId(null);
     const pid = Number(candidatePatientId);
-    if (isNaN(pid)) {
-      toast.error("Invalid patient ID entered");
-      return;
-    }
+    if (isNaN(pid)) return toast.error("Invalid patient ID entered");
     setPatientId(pid);
   }
 
-  const filteredVisits = (
-    showOnlyActiveVisits
-      ? visits.filter((visit) => visit.leaveTime === null)
-      : visits
-  ).filter((visit) => {
-    if (showTodayVisits) {
-      const today = new Date(currentDate);
-      const arrivalTime = new Date(visit.arrivalTime);
+  const filteredVisits = visits.filter((visit) => {
+    const arrivalTime = new Date(visit.arrivalTime);
+    const today = new Date(currentDate);
+    if (filter === "active") return visit.leaveTime === null;
+    if (filter === "today")
       return (
         arrivalTime.getDate() === today.getDate() &&
         arrivalTime.getMonth() === today.getMonth() &&
         arrivalTime.getFullYear() === today.getFullYear()
       );
-    }
+    if (filter === "inpatient") return Boolean(visit.admissionBed);
+    if (filter === "outpatient") return !visit.admissionBed;
     return true;
   });
+
   return (
     <div className="p-8 max-w-6xl mx-auto">
       {isLoading && (
@@ -108,7 +74,6 @@ export function PatientsVisitsList() {
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Patient Visits</CardTitle>
-
           <form onSubmit={handleSubmit} className="mt-4 flex gap-4">
             <Input
               type="text"
@@ -119,40 +84,32 @@ export function PatientsVisitsList() {
             />
             <Button type="submit">Search</Button>
           </form>
-
-          <div hidden={!visits.length} className="mt-6 space-y-4">
+          <RadioGroup
+            className="mt-4 flex flex-wrap gap-4"
+            value={filter}
+            onValueChange={setFilter}
+          >
             <div className="flex items-center space-x-2">
-              <Checkbox
-                id="active-visits"
-                checked={showOnlyActiveVisits}
-                onCheckedChange={(checked) =>
-                  setShowOnlyActiveVisits(!!checked)
-                }
-                className="h-5 w-5"
-              />
-              <Label
-                htmlFor="active-visits"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Show only active visits (patients still in hospital)
-              </Label>
+              <RadioGroupItem value="all" />
+              <Label>All</Label>
             </div>
-
             <div className="flex items-center space-x-2">
-              <Checkbox
-                id="today-visits"
-                checked={showTodayVisits}
-                onCheckedChange={(checked) => setShowTodayVisits(!!checked)}
-                className="h-5 w-5"
-              />
-              <Label
-                htmlFor="today-visits"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Show today's visits only
-              </Label>
+              <RadioGroupItem value="active" />
+              <Label>Active </Label>
             </div>
-          </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="today" />
+              <Label>Today</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="inpatient" />
+              <Label>Inpatient</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="outpatient" />
+              <Label>Outpatient</Label>
+            </div>
+          </RadioGroup>
         </CardHeader>
         <CardContent>
           <Table>
@@ -160,6 +117,7 @@ export function PatientsVisitsList() {
               <TableRow>
                 <TableHead>Patient ID</TableHead>
                 <TableHead>Name</TableHead>
+                <TableHead>Type</TableHead>
                 <TableHead>Arrival Time</TableHead>
                 <TableHead>Leave Time</TableHead>
                 <TableHead className="text-right">Action</TableHead>
@@ -169,16 +127,12 @@ export function PatientsVisitsList() {
               {filteredVisits.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={5}
+                    colSpan={6}
                     className="text-center text-gray-500 py-4"
                   >
                     {patientId
                       ? `No visits found for patient ID ${patientId}.`
-                      : showOnlyActiveVisits
-                        ? "No active visits found."
-                        : showTodayVisits
-                          ? "No visits today."
-                          : "No visits found."}
+                      : "No matching visits found."}
                   </TableCell>
                 </TableRow>
               ) : (
@@ -188,6 +142,9 @@ export function PatientsVisitsList() {
                       {visit.patientId}
                     </TableCell>
                     <TableCell>{visit.patient.name}</TableCell>
+                    <TableCell>
+                      {visit.admissionBed ? "Inpatient" : "Outpatient"}
+                    </TableCell>
                     <TableCell>{formatDateTime(visit.arrivalTime)}</TableCell>
                     <TableCell>
                       {visit.leaveTime

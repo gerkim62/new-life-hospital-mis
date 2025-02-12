@@ -58,15 +58,16 @@ async function getVisit(id: string): Promise<ComprehensiveVisit | null> {
 }
 
 async function updateVisit(data: UpdateVisitInput) {
-  const { visitId, ...rest } = data;
-  console.log("updateVisit -> rest", rest);
+  const { visitId, ...updateFields } = data;
+  console.log("updateVisit -> updateFields", updateFields);
+
+  const filteredData = Object.fromEntries(
+    Object.entries(updateFields).filter(([_, value]) => value !== undefined)
+  );
+
   const visit = await prisma.patientVisit.update({
-    where: {
-      id: visitId,
-    },
-    data: {
-      ...rest,
-    },
+    where: { id: visitId },
+    data: filteredData,
   });
 
   return visit;

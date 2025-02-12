@@ -1,7 +1,7 @@
 import { Response, Router } from "express";
 import { z } from "zod";
-import { PatientRouteResponse } from "./types";
 import { fetchPatient } from "./controller";
+import { PatientRouteResponse } from "./types";
 
 const singlePatientRouter = Router({
   mergeParams: true,
