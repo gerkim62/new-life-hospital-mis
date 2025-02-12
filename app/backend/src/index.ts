@@ -19,7 +19,6 @@ if (!adminPassword) {
 }
 
 app.use(
-  "/api",
   basicAuth({
     users: { admin: adminPassword },
     challenge: true,
