@@ -59,7 +59,7 @@ const LabList = () => {
           <Table>
             <TableHeader className="bg-blue-100 text-blue-900">
               <TableRow>
-                <TableHead>Patient ID</TableHead>
+                <TableHead>Patient Number</TableHead>
                 <TableHead>Patient Name</TableHead>
                 <TableHead>Test Name</TableHead>
                 <TableHead>Description</TableHead>

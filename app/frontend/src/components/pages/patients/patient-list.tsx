@@ -56,7 +56,7 @@ const PatientList = () => {
           <Table>
             <TableHeader className="bg-blue-100">
               <TableRow>
-                <TableHead className="w-24 text-blue-800">Patient ID</TableHead>
+                <TableHead className="w-24 text-blue-800">Patient Number</TableHead>
                 <TableHead className="text-blue-800">Name</TableHead>
                 <TableHead className="text-blue-800">Birth Date</TableHead>
                 <TableHead className="text-blue-800">Age</TableHead>

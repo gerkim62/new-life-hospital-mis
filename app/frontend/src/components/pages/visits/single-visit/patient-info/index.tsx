@@ -31,7 +31,7 @@ export default function PatientInfo({
             <CardTitle className="text-2xl font-semibold text-gray-800">
               {name} ({bedNumber ? "Inpatient" : "Outpatient"})
             </CardTitle>
-            <p className="text-gray-500 text-sm">Patient ID: {id}</p>
+            <p className="text-gray-500 text-sm">Patient Number: {id}</p>
             {bedNumber && (
               <p className="text-gray-500 text-sm">Bed Number: {bedNumber}</p>
             )}

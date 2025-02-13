@@ -53,15 +53,15 @@ export default function StockMovementsHistory() {
   }, [data]);
 
   // Calculate totals
-  const totalKshIn = stockMovements
+  const totalCost = stockMovements
     .filter((m) => m.type === "IN")
     .reduce((sum, m) => sum + m.batchPriceKes, 0);
 
-  const totalKshOut = stockMovements
+  const totalRevenue = stockMovements
     .filter((m) => m.type === "OUT")
     .reduce((sum, m) => sum + m.batchPriceKes, 0);
 
-  const revenue = totalKshOut - totalKshIn;
+  const profit = totalRevenue - totalCost;
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
@@ -103,7 +103,7 @@ export default function StockMovementsHistory() {
               <div>
                 <p className="text-gray-500">Quantity</p>
                 <p className="font-bold text-blue-600">
-                  {item.quantity} {item.unit}
+                  {item.quantity} ({item.unit})
                 </p>
               </div>
             </div>
@@ -117,33 +117,35 @@ export default function StockMovementsHistory() {
 
       {/* Summary Card */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <Card className="bg-blue-50 border border-blue-200 shadow-sm">
+        <Card className="bg-red-50 border border-red-200 shadow-sm">
           <CardContent className="p-4">
-            <p className="text-blue-800 text-lg font-semibold">Total In</p>
-            <p className="text-2xl font-bold text-green-700">
-              {formatCurrency(totalKshIn)}
+            <p className="text-red-800 text-lg font-semibold">Cost</p>
+            <p className="text-2xl font-bold text-red-700">
+              {formatCurrency(totalCost)}
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-red-50 border border-red-200 shadow-sm">
+        <Card className="bg-green-50 border border-green-200 shadow-sm">
           <CardContent className="p-4">
-            <p className="text-red-800 text-lg font-semibold">Total Out</p>
-            <p className="text-2xl font-bold text-red-700">
-              {formatCurrency(totalKshOut)}
+            <p className="text-green-800 text-lg font-semibold">Revenue</p>
+            <p className="text-2xl font-bold text-green-700">
+              {formatCurrency(totalRevenue)}
             </p>
           </CardContent>
         </Card>
 
         <Card className="bg-gray-50 border border-gray-200 shadow-sm">
           <CardContent className="p-4">
-            <p className="text-gray-800 text-lg font-semibold">Revenue</p>
+            <p className="text-gray-800 text-lg font-semibold">
+              Cumulative Profit
+            </p>
             <p
               className={`text-2xl font-bold ${
-                revenue >= 0 ? "text-green-700" : "text-red-700"
+                profit >= 0 ? "text-green-700" : "text-red-700"
               }`}
             >
-              {formatCurrency(revenue)}
+              {formatCurrency(profit)}
             </p>
           </CardContent>
         </Card>
