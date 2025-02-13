@@ -55,7 +55,7 @@ singleVisitRouter.put("/", async (req, res: Response<PutVisitResponse>) => {
   });
 });
 
-singleVisitRouter.post("/inpatient", (req, res) => {});
+// singleVisitRouter.post("/inpatient", (req, res) => {});
 
 singleVisitRouter.post(
   "/mark-as-left",
