@@ -28,97 +28,105 @@ export default function Dashboard() {
   const totalRevenue = visits.reduce((acc, visit) => acc + visit.revenue, 0);
 
   return (
-    <div className="p-8 space-y-8 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
-      <Card className="p-6 shadow-lg rounded-lg bg-white">
-        <h2 className="text-2xl font-semibold text-blue-600">
-          Total Revenue: ${totalRevenue}
-        </h2>
-      </Card>
-
-      <div className="flex space-x-4">
-        <Button
-          onClick={() => setSelectedRange("day")}
-          variant="outline"
-          className="px-4 py-2"
-        >
-          Today
-        </Button>
-        <Button
-          onClick={() => setSelectedRange("week")}
-          variant="outline"
-          className="px-4 py-2"
-        >
-          This Week
-        </Button>
-        <Button
-          onClick={() => setSelectedRange("month")}
-          variant="outline"
-          className="px-4 py-2"
-        >
-          This Month
-        </Button>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" className="px-4 py-2">
-              Select Date
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <Calendar />
-          </PopoverContent>
-        </Popover>
-      </div>
-
-      <Card className="p-6 shadow-lg rounded-lg bg-white">
-        <CardContent>
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Visits</h2>
-          <div className="space-y-4">
-            {visits.map((visit) => (
-              <div
-                key={visit.id}
-                className="flex justify-between p-4 border rounded-md bg-gray-50 shadow-sm"
-              >
-                <span className="font-medium text-gray-700">
-                  Patient ID: {visit.patientId}
-                </span>
-                <span className="font-medium text-green-600">
-                  Revenue: ${visit.revenue}
-                </span>
-                <Button variant="link" className="text-blue-600">
-                  View Details
-                </Button>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="p-6 shadow-lg rounded-lg bg-white">
-        <CardContent>
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Revenue Trend
-          </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={visits}>
-              <XAxis dataKey="date" stroke="#6b7280" />
-              <YAxis stroke="#6b7280" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#ffffff",
-                  borderRadius: "8px",
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey="revenue"
-                stroke="#3b82f6"
-                strokeWidth={2}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
+    <div className="p-8 space-y-8 bg-gray-50 min-h-screen">
+    <h1 className="text-3xl font-bold text-blue-900">Dashboard</h1>
+  
+    {/* Revenue Card */}
+    <Card className="p-6 shadow-md rounded-lg bg-white border border-blue-100">
+      <h2 className="text-2xl font-semibold text-blue-800">
+        Total Revenue: ${totalRevenue}
+      </h2>
+    </Card>
+  
+    {/* Filters */}
+    <div className="flex space-x-4">
+      <Button
+        onClick={() => setSelectedRange("day")}
+        variant="outline"
+        className="border-blue-600 text-blue-600 hover:bg-blue-50 px-4 py-2"
+      >
+        Today
+      </Button>
+      <Button
+        onClick={() => setSelectedRange("week")}
+        variant="outline"
+        className="border-blue-600 text-blue-600 hover:bg-blue-50 px-4 py-2"
+      >
+        This Week
+      </Button>
+      <Button
+        onClick={() => setSelectedRange("month")}
+        variant="outline"
+        className="border-blue-600 text-blue-600 hover:bg-blue-50 px-4 py-2"
+      >
+        This Month
+      </Button>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            className="border-blue-600 text-blue-600 hover:bg-blue-50 px-4 py-2"
+          >
+            Select Date
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="border-blue-200 shadow-md">
+          <Calendar />
+        </PopoverContent>
+      </Popover>
     </div>
+  
+    {/* Visits Card */}
+    <Card className="p-6 shadow-md rounded-lg bg-white border border-blue-100">
+      <CardContent>
+        <h2 className="text-xl font-semibold text-blue-900 mb-4">Visits</h2>
+        <div className="space-y-4">
+          {visits.map((visit, index) => (
+            <div
+              key={visit.id}
+              className={`flex justify-between p-4 border rounded-md shadow-sm 
+                          ${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
+            >
+              <span className="font-medium text-blue-800">
+                Patient ID: {visit.patientId}
+              </span>
+              <span className="font-medium text-green-700">
+                Revenue: ${visit.revenue}
+              </span>
+              <Button variant="link" className="text-blue-600 hover:underline">
+                View Details
+              </Button>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  
+    {/* Revenue Trend Chart */}
+    <Card className="p-6 shadow-md rounded-lg bg-white border border-blue-100">
+      <CardContent>
+        <h2 className="text-xl font-semibold text-blue-900 mb-4">Revenue Trend</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={visits}>
+            <XAxis dataKey="date" stroke="#6b7280" />
+            <YAxis stroke="#6b7280" />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#ffffff",
+                borderRadius: "8px",
+              }}
+            />
+            <Line
+              type="monotone"
+              dataKey="revenue"
+              stroke="#2563eb"
+              strokeWidth={2}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
+  </div>
+  
   );
 }

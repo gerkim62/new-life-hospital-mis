@@ -13,4 +13,6 @@ export type AddStockItemMovementResponse = ApiResponse<
   "movement"
 >;
 
+export type GetStockItemResponse = ApiResponse<StockItem, unknown, "item">;
+
 export type UpdateStockItemResponse = ApiResponse<StockItem, unknown, "item">;

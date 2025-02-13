@@ -2,12 +2,12 @@ import Loader from "@/components/small/loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import useCurrentDate from "@/hooks/use-current-date";
 import { getAge } from "@/lib/date";
@@ -41,38 +41,40 @@ const PatientList = () => {
       {isLoading && <Loader message="Fetching patients" />}
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Patient Records</CardTitle>
+          <CardTitle className="text-2xl font-bold text-blue-900">
+            Patient Records
+          </CardTitle>
           <Input
             type="text"
             placeholder="Search by Name, Phone, Address, or ID"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="mt-4"
+            className="mt-4 border-blue-300 focus:border-blue-500 focus:ring-blue-500"
           />
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-blue-100">
               <TableRow>
-                <TableHead className="w-24">Patient ID</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Birth Date</TableHead>
-                <TableHead>Age</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Address</TableHead>
+                <TableHead className="w-24 text-blue-800">Patient ID</TableHead>
+                <TableHead className="text-blue-800">Name</TableHead>
+                <TableHead className="text-blue-800">Birth Date</TableHead>
+                <TableHead className="text-blue-800">Age</TableHead>
+                <TableHead className="text-blue-800">Phone</TableHead>
+                <TableHead className="text-blue-800">Address</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {!filteredPatients.length && (
                 <tr>
                   <td
-                    className="py-4 px-6 border-b text-center text-gray-500"
-                    colSpan={5}
+                    className="py-4 px-6 border-b border-blue-300 text-center text-blue-600"
+                    colSpan={6}
                   >
                     {search ? (
                       <>
                         No patients found for search{" "}
-                        <span className="font-medium text-gray-700">
+                        <span className="font-medium text-blue-800">
                           {search}
                         </span>
                         . Please adjust your search.
@@ -85,15 +87,28 @@ const PatientList = () => {
               )}
 
               {filteredPatients.map((patient) => (
-                <TableRow key={patient.id}>
-                  <TableCell className="font-medium">{patient.id}</TableCell>
-                  <TableCell>{patient.name}</TableCell>
-                  <TableCell>{formatTime(patient.birthDate)}</TableCell>
-                  <TableCell>
-                    {getAge(new Date(patient.birthDate), currentDate)} {""}yrs
+                <TableRow
+                  key={patient.id}
+                  className="border-blue-300 hover:bg-blue-50"
+                >
+                  <TableCell className="font-medium text-blue-900">
+                    {patient.id}
                   </TableCell>
-                  <TableCell>{patient.phone}</TableCell>
-                  <TableCell>{patient.address}</TableCell>
+                  <TableCell className="text-blue-800">
+                    {patient.name}
+                  </TableCell>
+                  <TableCell className="text-blue-800">
+                    {formatTime(patient.birthDate)}
+                  </TableCell>
+                  <TableCell className="text-blue-800">
+                    {getAge(new Date(patient.birthDate), currentDate)} yrs
+                  </TableCell>
+                  <TableCell className="text-blue-800">
+                    {patient.phone}
+                  </TableCell>
+                  <TableCell className="text-blue-800">
+                    {patient.address}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -34,8 +34,6 @@ export default function ExistingUser() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-
-        // toast.dismiss("patient-error");
         setSubmittedPatientNumber(Number(patientNumber));
 
         if (data?.success) {
@@ -47,7 +45,12 @@ export default function ExistingUser() {
       }}
       className="space-y-2"
     >
-      {isLoading && <Loader message="Fetching patient details..." />}
+      {isLoading && (
+        <Loader
+          message="Fetching patient details..."
+          
+        />
+      )}
       {data?.success && (
         <SymptomsModal
           isOpen={modal === "symptoms"}
@@ -55,7 +58,10 @@ export default function ExistingUser() {
           onClose={() => setModal(null)}
         />
       )}
-      <Label htmlFor="patientNumber">Patient Number</Label>
+
+      <Label htmlFor="patientNumber" className="text-gray-700">
+        Patient Number
+      </Label>
       <Input
         disabled={isLoading}
         type="number"
@@ -64,8 +70,13 @@ export default function ExistingUser() {
         value={patientNumber}
         onChange={(e) => setPatientNumber(e.target.value)}
         required
+        className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
       />
-      <Button disabled={isLoading} type="submit" className="w-full">
+      <Button
+        disabled={isLoading}
+        type="submit"
+        className="w-full bg-blue-900 text-white hover:bg-blue-700"
+      >
         Proceed
       </Button>
     </form>

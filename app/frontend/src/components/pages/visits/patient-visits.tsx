@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { toast } from "react-toastify";
 import Loader from "@/components/small/loader";
-import { formatDateTime } from "@/lib/format";
-import { getVisits } from "@/queries/visits";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup } from "@/components/ui/radio-group";
 import {
   Table,
   TableBody,
@@ -15,12 +12,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import useCurrentDate from "@/hooks/use-current-date";
+import { formatDateTime } from "@/lib/format";
+import { getVisits } from "@/queries/visits";
 import { VisitWithPatient } from "@app/backend/src/routes/visits/types";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
+import { ArrowRight, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export function PatientsVisitsList() {
   const [visits, setVisits] = useState<VisitWithPatient[]>([]);
@@ -68,52 +68,67 @@ export function PatientsVisitsList() {
     <div className="p-8 max-w-6xl mx-auto">
       {isLoading && (
         <Loader
-          message={`Getting visits for ${patientId ? `patient with ID ${patientId}` : "all patients"}`}
+          message={`Getting visits for ${
+            patientId ? `patient with ID ${patientId}` : "all patients"
+          }`}
         />
       )}
-      <Card>
+      <Card className="shadow-md border border-blue-100 bg-white">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Patient Visits</CardTitle>
+          <CardTitle className="text-2xl font-bold text-blue-900">
+            Patient Visits
+          </CardTitle>
           <form onSubmit={handleSubmit} className="mt-4 flex gap-4">
             <Input
               type="text"
-              placeholder="Enter Patient ID"
+              placeholder="Enter Patient Number"
               value={candidatePatientId ?? ""}
               onChange={(e) => setCandidatePatientId(e.target.value)}
-              className="max-w-sm"
+              className="max-w-sm border-gray-300 focus:border-blue-500"
             />
-            <Button type="submit">Search</Button>
+            <Button
+              type="submit"
+              className="bg-blue-900 text-white hover:bg-blue-950"
+            >
+              <Search />
+              Search
+            </Button>
           </form>
           <RadioGroup
             className="mt-4 flex flex-wrap gap-4"
             value={filter}
             onValueChange={setFilter}
           >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="all" />
-              <Label>All</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="active" />
-              <Label>Active </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="today" />
-              <Label>Today</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="inpatient" />
-              <Label>Inpatient</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="outpatient" />
-              <Label>Outpatient</Label>
-            </div>
+            {[
+              { value: "all", label: "All" },
+              { value: "active", label: "Active" },
+              { value: "today", label: "Today" },
+              { value: "inpatient", label: "Inpatient" },
+              { value: "outpatient", label: "Outpatient" },
+            ].map(({ value, label }) => (
+              <div key={value} className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  value={value}
+                  id={value}
+                  checked={filter === value}
+                  onChange={() => setFilter(value)}
+                  className="peer hidden"
+                />
+                <Label
+                  htmlFor={value}
+                  className="cursor-pointer px-4 py-2 border rounded-md 
+                   peer-checked:bg-blue-600 peer-checked:text-white"
+                >
+                  {label}
+                </Label>
+              </div>
+            ))}
           </RadioGroup>
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-blue-100 text-blue-900">
               <TableRow>
                 <TableHead>Patient ID</TableHead>
                 <TableHead>Name</TableHead>
@@ -136,9 +151,12 @@ export function PatientsVisitsList() {
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredVisits.map((visit) => (
-                  <TableRow key={visit.id}>
-                    <TableCell className="font-medium">
+                filteredVisits.map((visit, index) => (
+                  <TableRow
+                    key={visit.id}
+                    className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
+                  >
+                    <TableCell className="font-medium text-blue-800">
                       {visit.patientId}
                     </TableCell>
                     <TableCell>{visit.patient.name}</TableCell>
@@ -155,7 +173,7 @@ export function PatientsVisitsList() {
                       <Link
                         to="/visits/$visitId"
                         params={{ visitId: visit.id }}
-                        className="flex items-center px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                        className="flex items-center px-3 py-1 bg-blue-100 text-blue-900 rounded hover:bg-blue-200"
                       >
                         View <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>

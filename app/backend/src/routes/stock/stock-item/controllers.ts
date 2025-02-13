@@ -87,4 +87,17 @@ async function updateStockItem(
     });
 }
 
-export { addStockItemMovement, getAllStockMovements, updateStockItem };
+async function getStockItem(id: string) {
+  return prisma.stockItem.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
+export {
+  addStockItemMovement,
+  getAllStockMovements,
+  updateStockItem,
+  getStockItem,
+};

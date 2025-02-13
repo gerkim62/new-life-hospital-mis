@@ -1,7 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
-import { Menu, Package, Stethoscope, TestTube, UserPlus2, Users, X } from "lucide-react";
+import {
+  Menu,
+  Package,
+  Stethoscope,
+  TestTube,
+  UserPlus2,
+  Users,
+  X,
+} from "lucide-react";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -40,9 +48,11 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
-          <div className="flex-shrink-0">
-            <span className="text-primary-foreground font-bold text-xl">HMS</span>
-          </div>
+          <Link to="/" className="flex-shrink-0">
+            <span className="text-primary-foreground font-bold text-xl">
+              HMS
+            </span>
+          </Link>
 
           {/* Mobile Menu Button */}
           <button
@@ -65,7 +75,13 @@ const Navbar = () => {
                   "[&.active]:bg-primary-foreground/20 [&.active]:text-primary-foreground"
                 )}
               >
-                <Link to={item.url} className="flex items-center">
+                <Link
+                  activeOptions={{
+                    exact: true,
+                  }}
+                  to={item.url}
+                  className="flex items-center"
+                >
                   <item.icon className="w-4 h-4 mr-2" />
                   {item.label}
                 </Link>
@@ -88,8 +104,8 @@ const Navbar = () => {
                     "[&.active]:bg-primary-foreground/20 [&.active]:text-primary-foreground"
                   )}
                 >
-                  <Link 
-                    to={item.url} 
+                  <Link
+                    to={item.url}
                     className="flex items-center px-3 py-2"
                     onClick={() => setIsOpen(false)}
                   >

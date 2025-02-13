@@ -36,8 +36,9 @@ export function StockList() {
   }
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div className="p-8 max-w-6xl mx-auto ">
       {isLoading && <Loader message="Loading stock items..." />}
+
       {modal === "new-stock" && (
         <NewStockModal
           toggle={(isOpen) => setModal(isOpen ? "new-stock" : null)}
@@ -58,19 +59,26 @@ export function StockList() {
         />
       )}
 
-      <Card>
+      <Card className="shadow-md border border-blue-100 bg-white">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-2xl font-bold">Stock Inventory</CardTitle>
-          <Button onClick={() => setModal("new-stock")}>Add Stock Item</Button>
+          <CardTitle className="text-2xl font-bold text-blue-900">
+            Stock Inventory
+          </CardTitle>
+          <Button
+            onClick={() => setModal("new-stock")}
+            className="bg-blue-600 text-white hover:bg-blue-700"
+          >
+            Add Stock Item
+          </Button>
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-blue-100 text-blue-900">
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Description</TableHead>
-                <TableHead>Quantity</TableHead>
-                <TableHead>Unit</TableHead>
+                <TableHead className="text-center">Quantity</TableHead>
+                <TableHead className="text-center">Unit</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -85,26 +93,39 @@ export function StockList() {
                   </TableCell>
                 </TableRow>
               ) : (
-                stockItems.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell className="font-medium">{item.name}</TableCell>
+                stockItems.map((item, index) => (
+                  <TableRow
+                    key={item.id}
+                    className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
+                  >
+                    <TableCell className="font-medium text-blue-900">
+                      {item.name}
+                    </TableCell>
                     <TableCell>{item.description}</TableCell>
-                    <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{item.unit}</TableCell>
+                    <TableCell className="text-center">
+                      {item.quantity}
+                    </TableCell>
+                    <TableCell className="text-center">{item.unit}</TableCell>
                     <TableCell className="text-right flex gap-2 justify-end">
                       <Button
                         size="sm"
                         onClick={() => setEditingItemId(item.id)}
+                        className="bg-blue-100 text-blue-900 hover:bg-blue-200"
                       >
                         <Pencil size={16} />
                       </Button>
                       <Button
                         size="sm"
                         onClick={() => handleAdjustStock(item.id)}
+                        className="bg-blue-600 text-white hover:bg-blue-700"
                       >
                         +/-
                       </Button>
-                      <Button asChild variant="outline">
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                      >
                         <Link params={{ itemId: item.id }} to="/stock/$itemId">
                           View History &rarr;
                         </Link>

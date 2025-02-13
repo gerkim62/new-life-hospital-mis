@@ -2,6 +2,7 @@ import { Response, Router } from "express";
 import {
   AddStockItemMovementResponse,
   GetStockItemMovementsResponse,
+  GetStockItemResponse,
   UpdateStockItemResponse,
 } from "./types";
 import {
@@ -11,6 +12,7 @@ import {
 import {
   addStockItemMovement,
   getAllStockMovements,
+  getStockItem,
   updateStockItem,
 } from "./controllers";
 import { z } from "zod";
@@ -98,5 +100,30 @@ stockItemRouter.put(
       });
   }
 );
+
+stockItemRouter.get("/", async (req, res: Response<GetStockItemResponse>) => {
+  const { stockItemId: itemId } = z
+    .object({
+      stockItemId: z.string(),
+    })
+    .parse(req.params);
+  const item = await getStockItem(itemId);
+
+  if (!item) {
+    res.status(404).json({
+      success: false,
+      message: "Stock item not found",
+      errors: [],
+    });
+
+    return;
+  }
+
+  res.json({
+    success: true,
+    message: "Stock item retrieved successfully.",
+    item,
+  });
+});
 
 export default stockItemRouter;

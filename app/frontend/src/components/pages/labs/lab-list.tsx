@@ -42,20 +42,22 @@ const LabList = () => {
   return (
     <div className="p-8 max-w-6xl mx-auto">
       {isLoading && <Loader message="Loading labs..." />}
-      <Card>
+      <Card className="bg-white shadow-md border border-gray-200">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Lab Tests</CardTitle>
+          <CardTitle className="text-2xl font-bold text-blue-900">
+            Lab Tests
+          </CardTitle>
           <Input
             type="text"
             placeholder="Search by Patient ID, Name, Test Name, or Description"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="mt-4"
+            className="mt-4 border-gray-300 focus:border-blue-500"
           />
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-blue-100 text-blue-900">
               <TableRow>
                 <TableHead>Patient ID</TableHead>
                 <TableHead>Patient Name</TableHead>
@@ -69,36 +71,44 @@ const LabList = () => {
             <TableBody>
               {filteredLabs.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center">
+                  <TableCell colSpan={7} className="text-center text-gray-500">
                     No labs to display.
                   </TableCell>
                 </TableRow>
               )}
               {filteredLabs.map((lab, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} className="odd:bg-gray-50 even:bg-white">
                   <TableCell className="font-medium">
                     {lab.patientVisit.patientId}
                   </TableCell>
                   <TableCell>{lab.patientVisit.patient.name}</TableCell>
                   <TableCell>{lab.name}</TableCell>
-                  <TableCell
-                  className="truncate max-w-[200px]"
-                  >{lab.description}</TableCell>
+                  <TableCell className="truncate max-w-[200px]">
+                    {lab.description}
+                  </TableCell>
                   <TableCell>{formatCurrency(lab.feesKes)}</TableCell>
                   <TableCell>
                     <Badge
-                      variant={lab.status === "DONE" ? "default" : "secondary"}
+                      className={
+                        lab.status === "DONE"
+                          ? "bg-green-100 text-green-700"
+                          : lab.status === "PENDING"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-red-100 text-red-700"
+                      }
                     >
                       {lab.status}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button asChild variant="outline">
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                    >
                       <Link
                         to="/visits/$visitId"
-                        params={{
-                          visitId: lab.patientVisitId,
-                        }}
+                        params={{ visitId: lab.patientVisitId }}
                       >
                         Visit →
                       </Link>

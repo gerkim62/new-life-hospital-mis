@@ -72,8 +72,16 @@ export default function NewUser() {
       }}
       className="space-y-4"
     >
-      {isPending && <Loader message="Adding patient..." />}
-      {isLoading && <Loader message="Fetching patient details..." />}
+      {isPending && (
+        <Loader message="Adding patient..." />
+      )}
+      {isLoading && (
+        <Loader
+          message="Fetching patient details..."
+         
+        />
+      )}
+
       {patientData?.success && (
         <SymptomsModal
           isOpen={modal === "symptoms"}
@@ -81,8 +89,11 @@ export default function NewUser() {
           onClose={() => setModal(null)}
         />
       )}
+
       <div className="space-y-2">
-        <Label htmlFor="name">Full Name</Label>
+        <Label htmlFor="name" className="text-gray-700">
+          Full Name
+        </Label>
         <Input
           minLength={3}
           id="name"
@@ -90,11 +101,15 @@ export default function NewUser() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
+          className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
         />
       </div>
+
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="age">Age</Label>
+          <Label htmlFor="age" className="text-gray-700">
+            Age
+          </Label>
           <Input
             max={200}
             min={0}
@@ -105,7 +120,7 @@ export default function NewUser() {
             onChange={(e) => {
               if (!e.target.value.length) {
                 setAge("");
-                setDateOfBirth(""); // Clear dateOfBirth if age is cleared
+                setDateOfBirth("");
                 return;
               }
               const newAge = Number(e.target.value);
@@ -115,38 +130,45 @@ export default function NewUser() {
               }
 
               setAge(newAge);
-              setDateOfBirth(getDateOfBirth(newAge, currentDate).toISOString()); // Update dateOfBirth based on new age
+              setDateOfBirth(getDateOfBirth(newAge, currentDate).toISOString());
             }}
             required
+            className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="dateOfBirth">Date of Birth</Label>
+          <Label htmlFor="dateOfBirth" className="text-gray-700">
+            Date of Birth
+          </Label>
           <Input
-          max={currentDate.toISOString().split("T")[0]} // Set max date to currentDate
+            max={currentDate.toISOString().split("T")[0]}
             id="dateOfBirth"
             type="date"
-            value={
-              dateOfBirth
-                ? dateOfBirth.split("T")[0] // Format date for input field
-                : ""
-            }
+            value={dateOfBirth ? dateOfBirth.split("T")[0] : ""}
             onChange={(e) => setDateOfBirth(e.target.value)}
+            className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
           />
         </div>
       </div>
+
       <div className="space-y-2">
-        <Label htmlFor="address">Address</Label>
+        <Label htmlFor="address" className="text-gray-700">
+          Address
+        </Label>
         <Input
           id="address"
           placeholder="Enter place name (e.g., Nairobi)"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           required
+          className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
         />
       </div>
+
       <div className="space-y-2">
-        <Label htmlFor="phoneNumber">Phone Number</Label>
+        <Label htmlFor="phoneNumber" className="text-gray-700">
+          Phone Number
+        </Label>
         <Input
           id="phoneNumber"
           type="tel"
@@ -154,9 +176,14 @@ export default function NewUser() {
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           required
+          className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
         />
       </div>
-      <Button type="submit" className="w-full">
+
+      <Button
+        type="submit"
+        className="w-full bg-blue-900 text-white hover:bg-blue-700"
+      >
         Proceed
       </Button>
     </form>
