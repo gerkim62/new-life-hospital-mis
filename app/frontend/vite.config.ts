@@ -12,7 +12,7 @@ export default defineConfig({
     TanStackRouterVite(),
     tailwindcss(),
     VitePWA({
-      injectRegister: false,
+      injectRegister: "auto",
       registerType: "autoUpdate",
       manifest: {
         name: "NewLife Medical Center",
@@ -21,6 +21,7 @@ export default defineConfig({
         theme_color: "#ffffff",
         background_color: "#ffffff",
         display: "standalone",
+        start_url: "/",
         icons: [
           {
             src: "/icon.png",
