@@ -130,7 +130,7 @@ export function PatientsVisitsList() {
           <Table>
             <TableHeader className="bg-blue-100 text-blue-900">
               <TableRow>
-                <TableHead>Patient ID</TableHead>
+                <TableHead>Patient No.</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Arrival Time</TableHead>

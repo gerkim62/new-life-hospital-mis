@@ -2,6 +2,7 @@ import Attribution from "@/components/layout/attribution";
 import Navbar from "@/components/layout/navbar";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import "../index.css";
+import InstallBanner from "@/components/banners/install";
 
 export const Route = createRootRoute({
   component: () => (
@@ -11,6 +12,7 @@ export const Route = createRootRoute({
     >
       <Navbar />
 
+      <InstallBanner />
       <div className="flex-1 flex flex-col items-center justify-center relative bg-[rgba(0,0,0,.5)]">
         <div className="w-full ">
           <Outlet />

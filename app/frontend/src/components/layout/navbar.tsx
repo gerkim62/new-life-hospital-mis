@@ -76,9 +76,9 @@ const Navbar = () => {
               <span className={cn(
                 "text-2xl font-bold text-white",
                 "transition-all duration-300",
-                "group-hover:opacity-90"
+                "group-hover:opacity-90 flex items-center gap-2"
               )}>
-                HMS
+                <img src="/favicon.ico" alt="Logo" className="h-9 w-auto" />NMC
               </span>
             </Link>
 
