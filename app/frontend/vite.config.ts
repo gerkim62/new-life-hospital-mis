@@ -1,8 +1,9 @@
-import tailwindcss from "@tailwindcss/vite";
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import tailwindcss from "@tailwindcss/vite";
+import path from "path";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,30 +11,30 @@ export default defineConfig({
     react(),
     TanStackRouterVite(),
     tailwindcss(),
-    // VitePWA({
-    //   injectRegister: "auto",
-    //   registerType: "autoUpdate",
-    //   manifest: {
-    //     name: "My Awesome PWA",
-    //     short_name: "MyPWA",
-    //     description: "An installable PWA built with Vite",
-    //     theme_color: "#ffffff",
-    //     background_color: "#ffffff",
-    //     display: "standalone",
-    //     icons: [
-    //       {
-    //         src: "/icon.png",
-    //         sizes: "1077x1077",
-    //         type: "image/png",
-    //       },
-    //     ],
-    //   },
-    //   workbox: {
-    //     clientsClaim: true,
-    //     skipWaiting: true,
-    //     cleanupOutdatedCaches: true,
-    //   },
-    // }),
+    VitePWA({
+      injectRegister: false,
+      registerType: "autoUpdate",
+      manifest: {
+        name: "NewLife Medical Center",
+        short_name: "NMC",
+        description: "A medical center management system",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        display: "standalone",
+        icons: [
+          {
+            src: "/icon.png",
+            sizes: "1077x1077",
+            type: "image/png",
+          },
+        ],
+      },
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
+        cleanupOutdatedCaches: true,
+      },
+    }),
   ],
   resolve: {
     alias: {
