@@ -6,12 +6,13 @@ import path from "path";
 import { errorHandlerMiddleware } from "./middlewares/error-handler";
 import indexRouter from "./routes";
 import { unauthorizedResponse } from "./unauthized";
+import env from "./libs/env";
 
-const PORT = process.env["PORT"] || 3000;
+const PORT = env["PORT"] || 3000;
 const app = express();
 app.use(express.json());
 
-const adminPassword = process.env["ADMIN_PASSWORD"];
+const adminPassword = env["ADMIN_PASSWORD"];
 
 if (!adminPassword) {
   console.error("ADMIN_PASSWORD is not set.");
@@ -32,7 +33,7 @@ app.use("/api/v1", indexRouter);
 
 const ___baseDir = path.resolve();
 
-if (process.env["NODE_ENV"] === "production") {
+if (env["NODE_ENV"] === "production") {
   console.log("Server running in production mode");
   app.use(express.static(path.join(___baseDir, "../frontend/dist")));
 
