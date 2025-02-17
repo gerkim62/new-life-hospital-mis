@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 import {
+  LayoutDashboard,
   Menu,
   Package,
   Stethoscope,
@@ -61,6 +62,11 @@ const Navbar = () => {
       url: "/stock",
       icon: Package,
     },
+    {
+      label:"Dashboard",
+      url: "/dashboard",
+      icon: LayoutDashboard,
+    }
   ];
 
   return (

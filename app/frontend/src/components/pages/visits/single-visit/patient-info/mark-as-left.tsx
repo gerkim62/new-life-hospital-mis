@@ -59,11 +59,11 @@ const MarkAsLeftModal = () => {
         <AlertDialogHeader>
           <AlertDialogTitle className="text-primary flex items-center gap-2">
             <AlertCircle className="w-5 h-5" />
-            Confirm Patient Discharge
+            Confirm Patient Release
           </AlertDialogTitle>
           <AlertDialogDescription className="text-base">
             This will indicate that the patient has been discharged from the hospital. After
-            discharge, you won't be able to:
+            discharging, you won't be able to:
             <ul className="list-disc ml-6 mt-2 space-y-1">
               <li>Update lab results</li>
               <li>Add or modify expenses</li>
