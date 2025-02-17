@@ -9,6 +9,7 @@ import {
 import { UpdateVisitSchema } from "../../../validation/visit";
 import medicationRouter from "./medication";
 import expensesRouter from "./expenses";
+import admissionRouter from "./admission";
 
 const singleVisitRouter = Router({
   mergeParams: true,
@@ -16,6 +17,7 @@ const singleVisitRouter = Router({
 
 singleVisitRouter.use("/medication", medicationRouter);
 singleVisitRouter.use("/expenses", expensesRouter);
+singleVisitRouter.use("/admission", admissionRouter);
 
 singleVisitRouter.get("/", async (req, res: Response<GetVisitResponse>) => {
   const { visitId } = z

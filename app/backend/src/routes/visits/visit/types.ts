@@ -5,6 +5,7 @@ import {
   Drug,
   Expense,
   Patient,
+  PatientAdmission,
 } from "@prisma/client";
 import { ApiResponse } from "../../../types/api/response";
 
@@ -32,6 +33,7 @@ export type ComprehensiveVisit = PatientVisit & {
   drugs: ComprehensiveDrug[];
   expenses: Expense[];
   patient: Patient;
+  admission: PatientAdmission | null;
 };
 
 export type GetVisitResponse = ApiResponse<
@@ -40,8 +42,6 @@ export type GetVisitResponse = ApiResponse<
   "visit"
 >;
 
-
 export type MarkAsLeftResponse = ApiResponse<PatientVisit, unknown, "visit">;
-
 
 export type PutVisitResponse = ApiResponse<PatientVisit, unknown, "visit">;

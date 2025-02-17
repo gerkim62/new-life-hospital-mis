@@ -59,18 +59,18 @@ const MarkAsLeftModal = () => {
         <AlertDialogHeader>
           <AlertDialogTitle className="text-primary flex items-center gap-2">
             <AlertCircle className="w-5 h-5" />
-            Confirm Patient Departure
+            Confirm Patient Discharge
           </AlertDialogTitle>
           <AlertDialogDescription className="text-base">
-            This will indicate that the patient has left the hospital. After
-            marking, you won't be able to:
+            This will indicate that the patient has been discharged from the hospital. After
+            discharge, you won't be able to:
             <ul className="list-disc ml-6 mt-2 space-y-1">
               <li>Update lab results</li>
               <li>Add or modify expenses</li>
               <li>Update medications</li>
             </ul>
             <div className="mt-4 font-medium text-muted-foreground">
-              Please note that this change is permanent.
+              This change is permanent and applies for the current visit only.
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>

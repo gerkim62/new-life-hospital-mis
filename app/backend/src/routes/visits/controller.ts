@@ -20,10 +20,15 @@ async function getVisits(data: GetVisitsInput) {
     },
     include: {
       patient: true,
+      patientAdmission: true,
     },
   });
 
-  return visits;
+  return visits.map((v) => ({
+    ...v,
+    admission: v.patientAdmission,
+    patientAdmission: undefined,
+  }));
 }
 
 export { createVisit, getVisits };

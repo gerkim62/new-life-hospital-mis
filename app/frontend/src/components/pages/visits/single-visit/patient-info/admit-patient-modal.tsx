@@ -1,19 +1,19 @@
-import { useState } from "react";
+import Loader from "@/components/small/loader";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateVisit } from "@/mutations/visit";
+import { admitPatient } from "@/mutations/admission";
 import { Route } from "@/routes/visits/$visitId.lazy";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import Loader from "@/components/small/loader";
 
 interface AdmitPatientModalProps {
   onClose: () => void;
@@ -43,15 +43,14 @@ const AdmitPatientModal: React.FC<AdmitPatientModalProps> = ({ onClose }) => {
 
   const { isPending, mutate } = useMutation({
     mutationFn: () =>
-      updateVisit({
+      admitPatient({
         visitId,
-        admissionBed: formData.bedNumber,
+        bedNumber: formData.bedNumber,
         dailySundriesFee: parseFloat(formData.dailySundriesFee),
         dailyDoctorsFee: parseFloat(formData.dailyDoctorsFee),
         admissionFee: parseFloat(formData.admissionFee),
         dailyNurseCareFee: parseFloat(formData.dailyNurseCareFee),
         dailyBedCharges: parseFloat(formData.dailyBedCharges),
-        admittedAt: new Date().toISOString(),
       }),
     onError: () => toast.error("Something went wrong, please retry."),
     onSuccess: (data) => {
@@ -69,15 +68,19 @@ const AdmitPatientModal: React.FC<AdmitPatientModalProps> = ({ onClose }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }));
   };
 
   const isFormValid = () => {
-    return Object.values(formData).every(value => value.trim() !== "") &&
-           Object.values(formData).slice(1).every(value => !isNaN(parseFloat(value)));
+    return (
+      Object.values(formData).every((value) => value.trim() !== "") &&
+      Object.values(formData)
+        .slice(1)
+        .every((value) => !isNaN(parseFloat(value)))
+    );
   };
 
   const handleAdmit = () => {
@@ -99,10 +102,12 @@ const AdmitPatientModal: React.FC<AdmitPatientModalProps> = ({ onClose }) => {
               <strong>Patient ID:</strong> 123456
             </p>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-3">
             <div>
-              <Label htmlFor="bedNumber" className="text-blue-700">Bed Number</Label>
+              <Label htmlFor="bedNumber" className="text-blue-700">
+                Bed Number
+              </Label>
               <Input
                 id="bedNumber"
                 placeholder="Enter bed number"
@@ -111,9 +116,11 @@ const AdmitPatientModal: React.FC<AdmitPatientModalProps> = ({ onClose }) => {
                 className="h-8"
               />
             </div>
-            
+
             <div>
-              <Label htmlFor="admissionFee" className="text-blue-700">One-time Admission Fee</Label>
+              <Label htmlFor="admissionFee" className="text-blue-700">
+                One-time Admission Fee
+              </Label>
               <Input
                 id="admissionFee"
                 type="number"
@@ -126,8 +133,12 @@ const AdmitPatientModal: React.FC<AdmitPatientModalProps> = ({ onClose }) => {
             </div>
 
             <div>
-              <Label htmlFor="dailyBedCharges" className="text-blue-700 flex items-center gap-1">
-                Bed Charges <span className="text-xs text-blue-500">(daily)</span>
+              <Label
+                htmlFor="dailyBedCharges"
+                className="text-blue-700 flex items-center gap-1"
+              >
+                Bed Charges{" "}
+                <span className="text-xs text-blue-500">(daily)</span>
               </Label>
               <Input
                 id="dailyBedCharges"
@@ -141,8 +152,12 @@ const AdmitPatientModal: React.FC<AdmitPatientModalProps> = ({ onClose }) => {
             </div>
 
             <div>
-              <Label htmlFor="dailyDoctorsFee" className="text-blue-700 flex items-center gap-1">
-                Doctor's Fee <span className="text-xs text-blue-500">(daily)</span>
+              <Label
+                htmlFor="dailyDoctorsFee"
+                className="text-blue-700 flex items-center gap-1"
+              >
+                Doctor's Fee{" "}
+                <span className="text-xs text-blue-500">(daily)</span>
               </Label>
               <Input
                 id="dailyDoctorsFee"
@@ -156,8 +171,12 @@ const AdmitPatientModal: React.FC<AdmitPatientModalProps> = ({ onClose }) => {
             </div>
 
             <div>
-              <Label htmlFor="dailyNurseCareFee" className="text-blue-700 flex items-center gap-1">
-                Nurse Care Fee <span className="text-xs text-blue-500">(daily)</span>
+              <Label
+                htmlFor="dailyNurseCareFee"
+                className="text-blue-700 flex items-center gap-1"
+              >
+                Nurse Care Fee{" "}
+                <span className="text-xs text-blue-500">(daily)</span>
               </Label>
               <Input
                 id="dailyNurseCareFee"
@@ -171,8 +190,12 @@ const AdmitPatientModal: React.FC<AdmitPatientModalProps> = ({ onClose }) => {
             </div>
 
             <div>
-              <Label htmlFor="dailySundriesFee" className="text-blue-700 flex items-center gap-1">
-                Sundries Fee <span className="text-xs text-blue-500">(daily)</span>
+              <Label
+                htmlFor="dailySundriesFee"
+                className="text-blue-700 flex items-center gap-1"
+              >
+                Sundries Fee{" "}
+                <span className="text-xs text-blue-500">(daily)</span>
               </Label>
               <Input
                 id="dailySundriesFee"
@@ -186,13 +209,17 @@ const AdmitPatientModal: React.FC<AdmitPatientModalProps> = ({ onClose }) => {
             </div>
           </div>
         </div>
-        
+
         <DialogFooter className="border-t border-blue-200 pt-3">
-          <Button variant="outline" onClick={onClose} className="border-blue-300">
+          <Button
+            variant="outline"
+            onClick={onClose}
+            className="border-blue-300"
+          >
             Cancel
           </Button>
-          <Button 
-            onClick={handleAdmit} 
+          <Button
+            onClick={handleAdmit}
             disabled={!isFormValid()}
             className="bg-blue-600 hover:bg-blue-700"
           >

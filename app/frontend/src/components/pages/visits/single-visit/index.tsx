@@ -8,6 +8,8 @@ import { Route } from "@/routes/visits/$visitId.lazy";
 import Loader from "@/components/small/loader";
 import { formatDateTime } from "@/lib/format";
 import useCurrentDate from "@/hooks/use-current-date";
+import AdmissionDetails from "./admission";
+import { calculateDays } from "@/lib/date";
 
 const VisitDetailsPage = () => {
   const currentDate = useCurrentDate();
@@ -35,6 +37,49 @@ const VisitDetailsPage = () => {
   const visit = data.visit;
 
   console.log(visit.labs);
+  console.log({ visit });
+
+  const daysSinceAdmission = calculateDays(
+    new Date(visit.admission?.admittedAt ?? currentDate),
+    new Date(visit.leaveTime ?? currentDate)
+  );
+
+  const admissionFees: {
+    name: string;
+    price: number;
+    description: string | undefined;
+  }[] = visit.admission
+    ? [
+        {
+          name: "Admission Fee",
+          price: visit.admission?.admissionFee ?? 0,
+          description: "One time fee for admission",
+        },
+        {
+          name: "Daily Bed Charges (" + daysSinceAdmission + " days)",
+          price: (visit.admission?.dailyBedCharges ?? 0) * daysSinceAdmission,
+          description: "Daily charges for bed" + daysSinceAdmission + " days",
+        },
+        {
+          name: "Daily Doctor's Fee (" + daysSinceAdmission + " days)",
+          price: (visit.admission?.dailyDoctorsFee ?? 0) * daysSinceAdmission,
+          description:
+            "Daily charges for doctor's visit" + daysSinceAdmission + " days",
+        },
+        {
+          name: "Daily Nurse Care Fee (" + daysSinceAdmission + " days)",
+          price: (visit.admission?.dailyNurseCareFee ?? 0) * daysSinceAdmission,
+          description:
+            "Daily charges for nurse care" + daysSinceAdmission + " days",
+        },
+        {
+          name: "Daily Sundries Fee (" + daysSinceAdmission + " days)",
+          price: (visit.admission?.dailySundriesFee ?? 0) * daysSinceAdmission,
+          description:
+            "Daily charges for sundries" + daysSinceAdmission + " days",
+        },
+      ]
+    : [];
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -44,8 +89,21 @@ const VisitDetailsPage = () => {
         id={visit.patient.id}
         arrivalTime={formatDateTime(visit.arrivalTime)}
         leaveTime={visit.leaveTime && formatDateTime(visit.leaveTime)}
-        bedNumber={visit.admissionBed}
+        bedNumber={visit.admission?.bedNumber ?? null}
       />
+      {
+        /* Admission Details */
+        visit.admission ? (
+          <AdmissionDetails
+            admission={visit.admission}
+            endDate={visit.leaveTime}
+          />
+        ) : (
+          <div className="bg-red-100 p-4 rounded-lg">
+            Patient is not admitted
+          </div>
+        )
+      }
 
       {/* Lab Results */}
       <Labs
@@ -92,7 +150,7 @@ const VisitDetailsPage = () => {
           arrivalTime: visit.arrivalTime,
           id: visit.patient.id,
           printedTime: new Date(currentDate),
-          admissionBed: visit.admissionBed,
+          admissionBed: visit.admission?.bedNumber ?? null,
         }}
       />
 
@@ -122,13 +180,13 @@ const VisitDetailsPage = () => {
               description: drug.description ?? undefined,
             })) ?? []
         }
-        otherExpenses={
+        otherExpenses={(
           visit.expenses.map((expense) => ({
             name: expense.name,
             price: expense.amount,
             description: expense.description ?? undefined,
           })) ?? []
-        }
+        ).concat(admissionFees)}
       />
     </div>
   );

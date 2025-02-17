@@ -15,7 +15,7 @@ import {
 import useCurrentDate from "@/hooks/use-current-date";
 import { formatDateTime } from "@/lib/format";
 import { getVisits } from "@/queries/visits";
-import { VisitWithPatient } from "@app/backend/src/routes/visits/types";
+import { VisitWithPatientAndAdmission } from "@app/backend/src/routes/visits/types";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Search } from "lucide-react";
@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export function PatientsVisitsList() {
-  const [visits, setVisits] = useState<VisitWithPatient[]>([]);
+  const [visits, setVisits] = useState<VisitWithPatientAndAdmission[]>([]);
   const [patientId, setPatientId] = useState<null | number>(null);
   const [filter, setFilter] = useState("all"); // all, active, today, inpatient, outpatient
 
@@ -59,8 +59,8 @@ export function PatientsVisitsList() {
         arrivalTime.getMonth() === today.getMonth() &&
         arrivalTime.getFullYear() === today.getFullYear()
       );
-    if (filter === "inpatient") return Boolean(visit.admissionBed);
-    if (filter === "outpatient") return !visit.admissionBed;
+    if (filter === "inpatient") return Boolean(visit.admission);
+    if (filter === "outpatient") return !visit.admission;
     return true;
   });
 
@@ -161,7 +161,7 @@ export function PatientsVisitsList() {
                     </TableCell>
                     <TableCell>{visit.patient.name}</TableCell>
                     <TableCell>
-                      {visit.admissionBed ? "Inpatient" : "Outpatient"}
+                      {visit.admission ? "Inpatient" : "Outpatient"}
                     </TableCell>
                     <TableCell>{formatDateTime(visit.arrivalTime)}</TableCell>
                     <TableCell>

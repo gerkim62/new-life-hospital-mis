@@ -46,6 +46,13 @@ export default function Medication({ drugs }: Props) {
             </TableRow>
           </TableHeader>
           <TableBody>
+            {drugs.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center">
+                  No medications added yet.
+                </TableCell>
+              </TableRow>
+            )}
             {drugs.map((drug, index) => (
               <TableRow key={index}>
                 <TableCell className="font-medium">{drug.name}</TableCell>
