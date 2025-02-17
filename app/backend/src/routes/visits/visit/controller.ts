@@ -24,7 +24,7 @@ async function getVisit(id: string): Promise<ComprehensiveVisit | null> {
         },
       },
       expenses: true,
-      patientAdmission: true,
+      admission: true,
     },
   });
 
@@ -55,7 +55,6 @@ async function getVisit(id: string): Promise<ComprehensiveVisit | null> {
         };
       }
     }),
-    admission: visit.patientAdmission,
   };
 }
 

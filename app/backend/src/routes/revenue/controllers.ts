@@ -87,7 +87,7 @@ async function getOtherExpensesRevenue(): Promise<NeatRevenue[]> {
 async function getAdmissions(): Promise<NeatRevenue[]> {
   const admissions = await prisma.patientAdmission.findMany({
     include: {
-      visit: {
+      patientVisit: {
         select: {
           leaveTime: true,
           patientId: true,
@@ -106,10 +106,10 @@ async function getAdmissions(): Promise<NeatRevenue[]> {
         admission.dailySundriesFee) *
       calculateDays(
         admission.admittedAt,
-        admission.visit.leaveTime ?? new Date()
+        admission.patientVisit.leaveTime ?? new Date()
       ),
     description: "Amount charged for admission and stay",
-    patientId: admission.visit.patientId,
+    patientId: admission.patientVisit.patientId,
     visitId: admission.patientVisitId,
     id: admission.id,
   }));
