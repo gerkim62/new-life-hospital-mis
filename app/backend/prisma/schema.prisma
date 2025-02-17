@@ -49,6 +49,18 @@ model PatientVisit {
   updatedAt DateTime @updatedAt
 }
 
+model PatientAdmission {
+  id String @id @default(uuid())
+
+  bedNumber         String
+  dailySundriesFee  Float
+  dailyDoctorsFee   Float
+  admissionFee      Float
+  dailyNurseCareFee Float
+  dailyBedCharges   Float
+  admittedAt        DateTime
+}
+
 model Drug {
   id          String  @id @default(uuid())
   name        String
@@ -89,6 +101,11 @@ model Expense {
   amount         Float
   patientVisit   PatientVisit @relation(fields: [patientVisitId], references: [id])
   patientVisitId String
+
+  // could this concept work
+  // perNumberOfDays Int
+  // startDate       DateTime @default(now())
+  // recurring       Boolean
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
