@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { markVisitAsLeft } from "@/mutations/visit";
 import { Route } from "@/routes/visits/$visitId.lazy";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, CheckCircle } from "lucide-react";
 import { toast } from "react-toastify";
 
 const MarkAsLeftModal = () => {
@@ -48,9 +48,11 @@ const MarkAsLeftModal = () => {
     <AlertDialog>
       {isLoading && <Loader message="Marking patient as left..." />}
       <AlertDialogTrigger asChild>
-        <Button className="gap-2">
-          <AlertCircle className="w-4 h-4" />
-          Mark as Left
+        <Button
+        id="mark-as-left-btn"
+         className="gap-2">
+          <CheckCircle className="w-4 h-4" />
+          Discharge Patient
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-md">

@@ -77,7 +77,7 @@ const SelectedDrugs: React.FC<SelectedDrugsProps> = ({
         </TableBody>
       </Table>
       <Button onClick={onSubmit} disabled={selectedDrugs.length === 0}>
-        Submit
+        Save Medication
       </Button>
     </div>
   );

@@ -17,6 +17,7 @@ import { formatCurrency, formatDateTime } from "@/lib/format";
 import ReceiptPdf, { ReceiptProps } from "@/components/pdf/receipt";
 import { printPDF } from "@/lib/print";
 import { toast } from "react-toastify";
+import { clickMarkAsLeft } from "@/lib/utils";
 
 type Props = ReceiptProps;
 
@@ -131,13 +132,16 @@ export default function Expenses(props: Props) {
                 otherExpenses={otherExpenses}
               />
             }
-            fileName={`Receipt-${patient.name}-PatientID:${patient.id}----------${formatDateTime(new Date())}.pdf`}
+            fileName={`Receipt-${patient.name}-PatientID:${
+              patient.id
+            }----------${formatDateTime(new Date())}.pdf`}
           >
             {({ url, loading, error }) => (
               <Button
                 onClick={() => {
                   if (!url) return toast.error("Error generating PDF");
                   printPDF(url);
+                  clickMarkAsLeft();
                 }}
                 disabled={Boolean(loading || error)}
                 className="flex gap-2"
@@ -146,8 +150,8 @@ export default function Expenses(props: Props) {
                 {loading
                   ? "Loading document..."
                   : error
-                    ? "Error loading document"
-                    : "Receipt"}
+                  ? "Error loading document"
+                  : "Receipt"}
               </Button>
             )}
           </PDFDownloadLink>

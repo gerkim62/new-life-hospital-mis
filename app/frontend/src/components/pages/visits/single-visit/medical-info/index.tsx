@@ -10,6 +10,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import { formatDateTime } from "@/lib/format";
 import { toast } from "react-toastify";
 import { printPDF } from "@/lib/print";
+import { clickMarkAsLeft } from "@/lib/utils";
 
 type Props = MedicalReportProps;
 
@@ -32,6 +33,7 @@ export default function MedicalInfo(props: Props) {
             <span>Report</span>
           </Button> */}
           <PDFDownloadLink
+          
             document={<MedicalReportPdf {...props} />}
             fileName={`Report-${props.patient.name}-PatientID:${props.patient.id}----------${formatDateTime(new Date())}.pdf`}
           >
@@ -40,6 +42,7 @@ export default function MedicalInfo(props: Props) {
                 onClick={() => {
                   if (!url) return toast.error("Error generating PDF Report");
                   printPDF(url);
+                  clickMarkAsLeft()
                 }}
                 disabled={Boolean(loading || error)}
                 className="flex gap-2"
