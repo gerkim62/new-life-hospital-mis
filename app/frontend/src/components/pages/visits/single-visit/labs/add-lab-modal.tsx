@@ -133,6 +133,7 @@ const AddLabModal = ({ patientName, patientId, visitId }: Props) => {
           </div>
           <DialogFooter className="mt-4 gap-2">
             <Button
+            disabled={isPending}
               type="button"
               variant="outline"
               size="sm"
@@ -140,7 +141,7 @@ const AddLabModal = ({ patientName, patientId, visitId }: Props) => {
             >
               Cancel
             </Button>
-            <Button type="submit" size="sm">
+            <Button disabled={isPending} type="submit" size="sm">
               Add
             </Button>
           </DialogFooter>
